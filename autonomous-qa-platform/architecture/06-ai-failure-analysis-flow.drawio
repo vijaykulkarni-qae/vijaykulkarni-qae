@@ -1,0 +1,172 @@
+<mxfile host="app.diagrams.net" modified="2025-12-12T16:30:00.000Z" agent="Autonomous QA - AI Failure Analysis" version="22.1.0">
+  <diagram name="AI Failure Analysis & Deviation Detection" id="ai-failure-flow">
+    <mxGraphModel dx="2000" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#0d47a1;opacity=90;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1920" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="title" value="Autonomous QA - AI Failure Analysis &amp; Deviation Detection Flow" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="1000" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="subtitle" value="Automatic Root Cause Analysis | Suggested Fixes | Confidence Scoring | Deviation Storage" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="600" y="60" width="800" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Trigger Layer -->
+        <mxCell id="lane-trigger" value="Layer 1: Trigger (After Test Failure)" style="swimlane;startSize=40;fillColor=#ffebee;strokeColor=#c62828;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="1920" height="160" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-test-fail" value="Test Execution&#xa;FAILED" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=12;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="80" y="60" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-check-enabled" value="AI Analysis&#xa;enabled?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="240" y="70" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-skip" value="Skip AI Analysis&#xa;(disabled in settings)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e0e0e0;strokeColor=#616161;fontSize=9;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="235" y="20" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-start" value="Start AI Analysis:&#xa;Async (non-blocking)&#xa;Test result already saved" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="380" y="70" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Collection Layer -->
+        <mxCell id="lane-collect" value="Layer 2: Data Collection (Test Context)" style="swimlane;startSize=40;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="1920" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="collect-query-testrun" value="1. Query TestRun:&#xa;SELECT * FROM test_runs&#xa;WHERE id = runId&#xa;Get: status, errors,&#xa;duration, metadata" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-collect">
+          <mxGeometry x="390" y="60" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="collect-failed-steps" value="2. Query Failed Steps:&#xa;SELECT * FROM&#xa;  test_run_steps&#xa;WHERE runId = runId&#xa;  AND status = 'failed'&#xa;Get: action, selector,&#xa;errorMessage, screenshot" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-collect">
+          <mxGeometry x="570" y="55" width="150" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="collect-screenshots" value="3. Load Screenshots:&#xa;fs.readFileSync(&#xa;  screenshotPath&#xa;)&#xa;Convert to base64" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-collect">
+          <mxGeometry x="760" y="70" width="130" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="collect-test-flow" value="4. Load TestFlow:&#xa;SELECT * FROM test_flows&#xa;WHERE id = flowId&#xa;Get: rawScript, steps,&#xa;name, description" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-collect">
+          <mxGeometry x="930" y="60" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="collect-context-ready" value="5. Context Ready:&#xa;• Test name&#xa;• Failed steps (N)&#xa;• Error messages&#xa;• Screenshots (base64)&#xa;• Element selectors&#xa;• Page URL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-collect">
+          <mxGeometry x="1110" y="65" width="130" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- AI Analysis Layer -->
+        <mxCell id="lane-ai" value="Layer 3: AI Provider Call (Root Cause Analysis)" style="swimlane;startSize=40;fillColor=#e0f2f1;strokeColor=#004d40;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="550" width="1920" height="320" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-load-provider" value="1. Load Primary Provider:&#xa;globalAIService.js&#xa;Get active AI provider" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#80deea;strokeColor=#006064;fontSize=9;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1120" y="60" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-build-prompt" value="2. Build Analysis Prompt:&#xa;'You are a QA expert.&#xa;Analyze this test failure.&#xa;&#xa;Test: {name}&#xa;Failed step: {action} {selector}&#xa;Error: {errorMessage}&#xa;Screenshot: [base64]&#xa;&#xa;Provide:&#xa;1. Root cause&#xa;2. Suggested fix&#xa;3. Confidence (0-100)&#xa;4. Severity (low/med/high)'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4dd0e1;strokeColor=#006064;fontSize=6.5;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1290" y="50" width="180" height="150" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-call-api" value="3. Call AI API:&#xa;POST provider.endpoint&#xa;{&#xa;  model,&#xa;  messages,&#xa;  maxTokens: 1000,&#xa;  temperature: 0.3&#xa;}&#xa;Timeout: 30s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#00bcd4;strokeColor=#006064;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1510" y="60" width="140" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-retry" value="Retry on Failure:&#xa;Max 3 attempts&#xa;Exponential backoff" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1530" y="190" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-fallback" value="If all fail:&#xa;Try next provider&#xa;or skip analysis" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffab91;strokeColor=#d84315;fontSize=8;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1680" y="100" width="90" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-success" value="4. AI Response:&#xa;{&#xa;  rootCause: 'Element...',&#xa;  suggestedFix: 'Update...',&#xa;  confidence: 85,&#xa;  severity: 'medium',&#xa;  affectedElements: [...]&#xa;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1690" y="190" width="150" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Deviation Storage -->
+        <mxCell id="lane-storage" value="Layer 4: Deviation Storage &amp; Notification" style="swimlane;startSize=40;fillColor=#fff3e0;strokeColor=#e65100;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="890" width="1920" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="store-parse" value="1. Parse AI Response:&#xa;Extract:&#xa;• rootCause (string)&#xa;• suggestedFix (string)&#xa;• confidence (0-100)&#xa;• severity (enum)&#xa;• affectedElements (array)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffb74d;strokeColor=#e65100;fontSize=7;shadow=1;" vertex="1" parent="lane-storage">
+          <mxGeometry x="1700" y="60" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="store-create-deviation" value="2. CREATE Deviation:&#xa;INSERT INTO deviations&#xa;{&#xa;  id: cuid(),&#xa;  runId,&#xa;  type: 'test_failure',&#xa;  severity,&#xa;  description: rootCause,&#xa;  aiAnalysis: {&#xa;    rootCause,&#xa;    suggestedFix,&#xa;    confidence,&#xa;    provider,&#xa;    model,&#xa;    analyzedAt&#xa;  },&#xa;  createdAt: NOW()&#xa;}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6;shadow=1;" vertex="1" parent="lane-storage">
+          <mxGeometry x="1520" y="50" width="150" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="store-update-testrun" value="3. UPDATE TestRun:&#xa;UPDATE test_runs&#xa;SET aiAnalysis = {&#xa;  deviationId,&#xa;  summary,&#xa;  confidence&#xa;}&#xa;WHERE id = runId" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-storage">
+          <mxGeometry x="1330" y="60" width="150" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="store-emit-ws" value="4. WebSocket Emit:&#xa;'ai:analysis:complete'&#xa;{&#xa;  runId,&#xa;  deviationId,&#xa;  severity,&#xa;  rootCause,&#xa;  confidence&#xa;}" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-storage">
+          <mxGeometry x="1130" y="75" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="store-track-usage" value="5. Track AI Usage:&#xa;usageTracker.increment({&#xa;  provider,&#xa;  context: 'failure_analysis',&#xa;  tokens&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#880e4f;fontSize=7;shadow=1;" vertex="1" parent="lane-storage">
+          <mxGeometry x="930" y="85" width="150" height="65" as="geometry" />
+        </mxCell>
+        
+        <!-- Frontend Display -->
+        <mxCell id="lane-display" value="Layer 5: Frontend Display (Deviation UI)" style="swimlane;startSize=40;fillColor=#e1f5fe;strokeColor=#01579b;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1190" width="1920" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="display-receive-ws" value="Frontend receives:&#xa;'ai:analysis:complete'&#xa;event via WebSocket" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-display">
+          <mxGeometry x="1140" y="70" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="display-show-banner" value="Show Banner/Toast:&#xa;'✨ AI Analysis Complete'&#xa;Click to view insights" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-display">
+          <mxGeometry x="1320" y="75" width="140" height="65" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="display-deviation-panel" value="Deviation Panel:&#xa;━━━━━━━━━━━━━━━━&#xa;🔍 Root Cause:&#xa;'{rootCause}'&#xa;&#xa;💡 Suggested Fix:&#xa;'{suggestedFix}'&#xa;&#xa;📊 Confidence: 85%&#xa;⚠️ Severity: Medium&#xa;&#xa;🤖 Analyzed by: Gemini Pro" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=7;align=left;shadow=1;" vertex="1" parent="lane-display">
+          <mxGeometry x="1510" y="60" width="180" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="display-apply-fix" value="Optional:&#xa;User can apply&#xa;suggested fix&#xa;to test script" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-display">
+          <mxGeometry x="1740" y="80" width="110" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1480" width="500" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="1485" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-text" value="Automatic Analysis: Triggers after any test failure (non-blocking) | AI Providers: Uses same multi-provider system as script analysis | Deviation: Stored in database for historical tracking | Confidence Scoring: 0-100 (AI estimates accuracy)&#xa;Colors: Red=Failure/Trigger | Purple=AI Services | Cyan=External AI | Orange=Events | Red Cylinders=DB" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=7;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1510" width="460" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Metadata -->
+        <mxCell id="metadata-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="1480" width="400" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-title" value="METADATA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="1485" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-text" value="Services: globalAIService.js, deviationAnalyzer.js, usageTracker.js | Tables: Deviation, TestRun, TestRunStep, AIProvider | Triggered: Automatically after test failure | Non-Blocking: Test result saved first, analysis runs async | Industry Pattern: Sentry, Datadog Error Tracking | Last Updated: 2025-12-12 | Complexity: Medium (40+ nodes, 5 lanes)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="1510" width="360" height="35" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

@@ -1,0 +1,198 @@
+<mxfile host="app.diagrams.net" modified="2025-12-12T17:30:00.000Z" agent="Autonomous QA - Folder Management" version="22.1.0">
+  <diagram name="Folder Management (Recursive Operations)" id="folder-mgmt">
+    <mxGraphModel dx="2000" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="title-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#0d47a1;opacity=90;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1920" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="title" value="Autonomous QA - Folder Management (Recursive Clone, Hierarchy, CRUD)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="400" y="30" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="subtitle" value="Self-Referencing Hierarchy | Recursive Clone (All Nested Folders + Flows) | Path-Based Organization" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="500" y="60" width="1000" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- CRUD Operations -->
+        <mxCell id="section1" value="═══ BASIC CRUD OPERATIONS ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#4caf50;" vertex="1" parent="1">
+          <mxGeometry x="700" y="110" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-crud" value="CREATE | UPDATE | DELETE Folder" style="swimlane;startSize=30;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="1920" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="crud-create" value="CREATE Folder:&#xa;POST /api/folders&#xa;{name, parentId?,&#xa;projectId, color, icon}&#xa;&#xa;Generate unique path:&#xa;parent.path + '/' + name&#xa;&#xa;INSERT folders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=7;shadow=1;" vertex="1" parent="lane-crud">
+          <mxGeometry x="70" y="50" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="crud-update" value="UPDATE Folder:&#xa;PUT /api/folders/:id&#xa;{name, description,&#xa;color, icon}&#xa;&#xa;If name changed:&#xa;  Recalculate path&#xa;  Update all children paths&#xa;&#xa;UPDATE folders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a5d6a7;strokeColor=#2e7d32;fontSize=7;shadow=1;" vertex="1" parent="lane-crud">
+          <mxGeometry x="250" y="50" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="crud-delete" value="DELETE Folder:&#xa;DELETE /api/folders/:id&#xa;&#xa;Check if empty:&#xa;  SELECT COUNT(*)&#xa;  FROM test_flows&#xa;  WHERE folderId = id&#xa;&#xa;If not empty: Reject&#xa;If empty: DELETE&#xa;&#xa;CASCADE to children" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#d84315;fontSize=6.5;shadow=1;" vertex="1" parent="lane-crud">
+          <mxGeometry x="440" y="45" width="140" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Recursive Clone -->
+        <mxCell id="section2" value="═══ RECURSIVE CLONE (Complex Operation) ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#9c27b0;" vertex="1" parent="1">
+          <mxGeometry x="700" y="350" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-clone" value="CLONE Folder (Recursive - All Nested Folders + All Flows)" style="swimlane;startSize=30;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="390" width="1920" height="480" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-start" value="POST /api/folders/:id/clone&#xa;{targetParentId?,&#xa;includeFlows: true}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="70" y="50" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-load-source" value="1. Load Source Folder:&#xa;SELECT * FROM folders&#xa;WHERE id = sourceFolderId&#xa;&#xa;Get: name, description,&#xa;color, icon, metadata" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="250" y="45" width="130" height="95" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-create-root" value="2. Create Root Clone:&#xa;newFolder = {&#xa;  id: cuid(),&#xa;  name: source.name + ' (Copy)',&#xa;  parentId: targetParentId,&#xa;  path: calculatePath(),&#xa;  color, icon,&#xa;  createdBy: userId&#xa;}&#xa;INSERT folders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=6.5;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="420" y="40" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-query-children" value="3. Query All Children:&#xa;WITH RECURSIVE folder_tree AS (&#xa;  SELECT * FROM folders&#xa;  WHERE parentId = sourceFolderId&#xa;  UNION ALL&#xa;  SELECT f.* FROM folders f&#xa;  INNER JOIN folder_tree ft&#xa;    ON f.parentId = ft.id&#xa;)&#xa;SELECT * FROM folder_tree;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="620" y="40" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-loop-children" value="4. FOR EACH child folder:&#xa;(in order: depth-first)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ba68c8;strokeColor=#7b1fa2;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="850" y="55" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-child-folder" value="Create child clone:&#xa;newChildFolder = {&#xa;  id: cuid(),&#xa;  name: child.name,&#xa;  parentId: newParentId,&#xa;  path: newPath,&#xa;  ...&#xa;}&#xa;&#xa;Store mapping:&#xa;oldId → newId" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ce93d8;strokeColor=#7b1fa2;fontSize=7;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="840" y="170" width="140" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-query-flows" value="5. Query All Flows:&#xa;SELECT * FROM test_flows&#xa;WHERE folderId IN&#xa;  (sourceFolderId,&#xa;   all child folder IDs)&#xa;&#xa;Returns: N flows to clone" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="1040" y="50" width="150" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-loop-flows" value="6. FOR EACH flow:" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ba68c8;strokeColor=#7b1fa2;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="1240" y="70" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-flow" value="Clone flow:&#xa;newFlow = {&#xa;  id: cuid(),&#xa;  name: flow.name,&#xa;  folderId: newFolderIdMap[&#xa;    flow.folderId],&#xa;  rawScript, steps,&#xa;  version: 1,&#xa;  createdBy: userId&#xa;}&#xa;&#xa;atomicFlowSaveService&#xa;.execute(newFlow)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ab47bc;strokeColor=#6a1b9a;fontSize=6.5;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="1230" y="160" width="140" height="130" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-transaction" value="7. Wrap in Transaction:&#xa;BEGIN TRANSACTION&#xa;&#xa;All folder creations&#xa;All flow creations&#xa;&#xa;COMMIT or ROLLBACK" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#5c6bc0;strokeColor=#3f51b5;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="1420" y="70" width="140" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-audit" value="8. Audit Log:&#xa;INSERT audit_logs&#xa;action: 'CLONE_FOLDER'&#xa;details: {&#xa;  sourceFolderId,&#xa;  newFolderId,&#xa;  foldersCloned: M,&#xa;  flowsCloned: N&#xa;}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="1600" y="65" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-success" value="✓ Clone Complete&#xa;&#xa;Created:&#xa;M folders&#xa;N flows&#xa;&#xa;Return newFolderId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=8;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="1780" y="70" width="110" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-example" value="EXAMPLE:&#xa;Source Folder Structure:&#xa;&#xa;📂 Project A&#xa;  📂 Smoke Tests (5 flows)&#xa;    📂 Login (2 flows)&#xa;    📂 Signup (3 flows)&#xa;  📂 Regression (10 flows)&#xa;&#xa;After Clone:&#xa;📂 Project A (Copy)&#xa;  📂 Smoke Tests (5 flows)&#xa;    📂 Login (2 flows)&#xa;    📂 Signup (3 flows)&#xa;  📂 Regression (10 flows)&#xa;&#xa;Total: 4 folders, 15 flows cloned" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8eaf6;strokeColor=#3f51b5;fontSize=6.5;align=left;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="70" y="300" width="240" height="160" as="geometry" />
+        </mxCell>
+        
+        <!-- Move Operation -->
+        <mxCell id="section3" value="═══ MOVE FOLDER (Update Hierarchy) ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#ff9800;" vertex="1" parent="1">
+          <mxGeometry x="700" y="890" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-move" value="MOVE Folder (Update Parent + Recalculate Paths)" style="swimlane;startSize=30;fillColor=#fff3e0;strokeColor=#e65100;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="930" width="1920" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-api" value="PUT /api/folders/:id/move&#xa;{newParentId}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="70" y="50" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-validate" value="1. Validate:&#xa;• newParent exists&#xa;• Not moving to self&#xa;• Not moving to own child&#xa;  (circular reference)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=8;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="230" y="50" width="130" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-calc-new-path" value="2. Calculate New Path:&#xa;newPath =&#xa;  newParent.path + '/' +&#xa;  folder.name&#xa;&#xa;Example:&#xa;'/ProjectA/Tests'&#xa;→ '/ProjectB/Tests'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffb74d;strokeColor=#e65100;fontSize=7;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="400" y="45" width="150" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-update-self" value="3. UPDATE Folder:&#xa;UPDATE folders&#xa;SET parentId = newParentId,&#xa;    path = newPath,&#xa;    updatedAt = NOW()&#xa;WHERE id = folderId" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="590" y="50" width="140" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-update-children" value="4. UPDATE All Children Paths:&#xa;WITH RECURSIVE children AS (&#xa;  SELECT * FROM folders&#xa;  WHERE parentId = folderId&#xa;  UNION ALL&#xa;  SELECT f.* FROM folders f&#xa;  INNER JOIN children c&#xa;    ON f.parentId = c.id&#xa;)&#xa;UPDATE folders&#xa;SET path = REPLACE(path,&#xa;  oldPath, newPath)&#xa;WHERE id IN (SELECT id FROM children)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=5.5;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="770" y="40" width="180" height="115" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-audit" value="5. Audit:&#xa;INSERT audit_logs&#xa;action: 'MOVE_FOLDER'&#xa;details: {from, to}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="990" y="60" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-success" value="✓ Moved&#xa;All paths updated" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="1150" y="70" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-example" value="EXAMPLE:&#xa;Before Move:&#xa;📂 ProjectA&#xa;  📂 Folder1 (path: '/ProjectA/Folder1')&#xa;    📂 Folder2 (path: '/ProjectA/Folder1/Folder2')&#xa;      📂 Folder3 (path: '/ProjectA/Folder1/Folder2/Folder3')&#xa;&#xa;Move Folder1 to ProjectB:&#xa;&#xa;After Move:&#xa;📂 ProjectB&#xa;  📂 Folder1 (path: '/ProjectB/Folder1')&#xa;    📂 Folder2 (path: '/ProjectB/Folder1/Folder2')&#xa;      📂 Folder3 (path: '/ProjectB/Folder1/Folder2/Folder3')&#xa;&#xa;All nested paths updated automatically!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=6;align=left;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="70" y="160" width="340" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Hierarchy Query -->
+        <mxCell id="section4" value="═══ HIERARCHY QUERIES (Common Operations) ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2196f3;" vertex="1" parent="1">
+          <mxGeometry x="700" y="1230" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-queries" value="Common Hierarchy Queries" style="swimlane;startSize=30;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1270" width="1920" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-children" value="Get Direct Children:&#xa;&#xa;SELECT * FROM folders&#xa;WHERE parentId = folderId&#xa;ORDER BY name" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#90caf9;strokeColor=#1565c0;fontSize=8;shadow=1;" vertex="1" parent="lane-queries">
+          <mxGeometry x="70" y="50" width="150" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-all-descendants" value="Get All Descendants:&#xa;&#xa;WITH RECURSIVE tree AS (&#xa;  SELECT * FROM folders&#xa;  WHERE parentId = folderId&#xa;  UNION ALL&#xa;  SELECT f.* FROM folders f&#xa;  INNER JOIN tree t&#xa;    ON f.parentId = t.id&#xa;)&#xa;SELECT * FROM tree" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#64b5f6;strokeColor=#1565c0;fontSize=6.5;shadow=1;" vertex="1" parent="lane-queries">
+          <mxGeometry x="260" y="45" width="180" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-path-to-root" value="Get Path to Root:&#xa;&#xa;WITH RECURSIVE path AS (&#xa;  SELECT * FROM folders&#xa;  WHERE id = folderId&#xa;  UNION ALL&#xa;  SELECT f.* FROM folders f&#xa;  INNER JOIN path p&#xa;    ON f.id = p.parentId&#xa;)&#xa;SELECT * FROM path&#xa;ORDER BY depth DESC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#42a5f5;strokeColor=#1565c0;fontSize=6.5;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-queries">
+          <mxGeometry x="480" y="45" width="180" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-tree-depth" value="Get Tree Depth:&#xa;&#xa;SELECT MAX(&#xa;  LENGTH(path) -&#xa;  LENGTH(REPLACE(path, '/', ''))&#xa;) AS maxDepth&#xa;FROM folders&#xa;WHERE path LIKE parentPath + '%'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1e88e5;strokeColor=#1565c0;fontSize=6.5;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-queries">
+          <mxGeometry x="700" y="50" width="180" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1520" width="540" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="1525" width="160" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-text" value="Self-Referencing: Folder.parentId → Folder.id (hierarchy) | Path-Based: Unique path for each folder (e.g., '/ProjectA/Smoke/Login') | Recursive Clone: Clones entire subtree (all folders + all flows) | CTE Queries: PostgreSQL Recursive Common Table Expressions for hierarchy traversal | Transaction Safety: All multi-step operations wrapped in Prisma transactions&#xa;Colors: Green=CREATE | Purple=CLONE | Orange=MOVE | Blue=QUERIES | Red Cylinders=DB" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1550" width="500" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Metadata -->
+        <mxCell id="metadata-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="1520" width="520" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-title" value="METADATA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1540" y="1525" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-text" value="Services: atomicFolderCloneService.js, folderService.js, atomicFlowSaveService.js | Tables: Folder (self-referencing), TestFlow, AuditLog | Endpoints: POST/PUT/DELETE /api/folders | Recursive: CTE queries for hierarchy traversal | Path Strategy: Unique path constraint prevents duplicates | Circular Reference Protection: Validates move operations | Last Updated: 2025-12-12 | Complexity: Complex (40+ nodes, 4 operations)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="1550" width="480" height="35" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

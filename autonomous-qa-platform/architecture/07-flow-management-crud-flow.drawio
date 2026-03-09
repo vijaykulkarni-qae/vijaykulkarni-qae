@@ -1,0 +1,232 @@
+<mxfile host="app.diagrams.net" modified="2025-12-12T17:00:00.000Z" agent="Autonomous QA - Flow Management CRUD" version="22.1.0">
+  <diagram name="Flow Management CRUD Operations" id="flow-crud">
+    <mxGraphModel dx="2200" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#0d47a1;opacity=90;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="2120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="title" value="Autonomous QA - Flow Management CRUD Operations (Atomic Transactions)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="subtitle" value="Create | Update | Clone | Move | Delete with Atomic Transactions, Backup & Rollback" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="600" y="60" width="1000" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- CREATE Operation -->
+        <mxCell id="section1" value="═══ OPERATION 1: CREATE Flow ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#4caf50;" vertex="1" parent="1">
+          <mxGeometry x="800" y="110" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-create" value="CREATE Flow (from Recording or Manual)" style="swimlane;startSize=30;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="2120" height="220" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-api" value="POST /api/flows&#xa;{name, description,&#xa;rawScript, steps,&#xa;folderId, tags}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="70" y="50" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-validate" value="Validate:&#xa;• Name not empty&#xa;• Folder exists&#xa;• Script valid" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=8;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="230" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-atomic" value="atomicFlowSaveService:&#xa;1. Create backup&#xa;2. Begin transaction&#xa;3. INSERT TestFlow&#xa;4. INSERT TestFlowVersion&#xa;5. UPDATE Folder.updatedAt&#xa;6. Commit&#xa;7. INSERT AuditLog" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#5c6bc0;strokeColor=#3f51b5;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="370" y="45" width="160" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-backup" value="Backup:&#xa;/tmp/flow-backup-&#xa;{uuid}.json" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="370" y="160" width="80" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-transaction" value="Prisma Transaction:&#xa;await prisma.$transaction([&#xa;  createFlow,&#xa;  createVersion,&#xa;  updateFolder&#xa;])" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="570" y="50" width="140" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-success" value="✓ SUCCESS&#xa;Return flowId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=10;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="750" y="65" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="create-rollback" value="On Error:&#xa;ROLLBACK&#xa;Restore backup&#xa;Return error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-create">
+          <mxGeometry x="615" y="160" width="90" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- UPDATE Operation -->
+        <mxCell id="section2" value="═══ OPERATION 2: UPDATE Flow ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2196f3;" vertex="1" parent="1">
+          <mxGeometry x="800" y="390" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-update" value="UPDATE Flow (Content Editing)" style="swimlane;startSize=30;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="430" width="2120" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-api" value="PUT /api/flows/:id&#xa;{name, description,&#xa;rawScript, steps}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="70" y="50" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-load-existing" value="1. Load existing:&#xa;SELECT * FROM&#xa;test_flows&#xa;WHERE id = flowId" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="230" y="50" width="110" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-permission" value="Check Permission:&#xa;user.id = flow.createdBy&#xa;OR user.role = 'admin'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=8;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="380" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-create-version" value="2. Create Version Snapshot:&#xa;INSERT TestFlowVersion&#xa;{&#xa;  flowId,&#xa;  version: current + 1,&#xa;  rawScript (old),&#xa;  steps (old),&#xa;  changedBy: userId,&#xa;  changeReason: 'Updated'&#xa;}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="540" y="45" width="150" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-reparse" value="3. Re-parse Script:&#xa;astPlaywrightParser&#xa;.parse(newRawScript)&#xa;Extract new steps" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ba68c8;strokeColor=#7b1fa2;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="730" y="60" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-transaction" value="4. Transaction:&#xa;UPDATE test_flows&#xa;SET name, description,&#xa;  rawScript, steps,&#xa;  version = version + 1,&#xa;  updatedAt = NOW()" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="900" y="50" width="140" height="95" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-audit" value="5. Audit Log:&#xa;INSERT audit_logs&#xa;action: 'UPDATE'&#xa;resource: 'TestFlow'" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="1080" y="60" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-success" value="✓ Updated&#xa;Version now: N+1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-update">
+          <mxGeometry x="1240" y="70" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- CLONE Operation -->
+        <mxCell id="section3" value="═══ OPERATION 3: CLONE Flow ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#9c27b0;" vertex="1" parent="1">
+          <mxGeometry x="800" y="690" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-clone" value="CLONE Flow (Duplicate)" style="swimlane;startSize=30;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="730" width="2120" height="220" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-api" value="POST /api/flows/:id/clone&#xa;{targetFolderId?}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="70" y="50" width="130" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-load" value="1. Load Source Flow:&#xa;SELECT * FROM test_flows&#xa;WHERE id = flowId" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="240" y="50" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-deep-copy" value="2. Deep Copy:&#xa;newFlow = {&#xa;  ...sourceFlow,&#xa;  id: cuid(),&#xa;  name: sourceFlow.name + ' (Copy)',&#xa;  folderId: targetFolderId,&#xa;  version: 1,&#xa;  previousVersion: null,&#xa;  createdBy: userId,&#xa;  createdAt: NOW()&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=6.5;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="400" y="45" width="170" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-save" value="3. Save Clone:&#xa;atomicFlowSaveService&#xa;.execute(newFlow)&#xa;&#xa;Creates:&#xa;• New TestFlow&#xa;• New TestFlowVersion&#xa;• AuditLog entry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ce93d8;strokeColor=#7b1fa2;fontSize=7;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="610" y="50" width="140" height="95" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clone-success" value="✓ Cloned&#xa;New flowId returned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-clone">
+          <mxGeometry x="790" y="70" width="110" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- MOVE Operation -->
+        <mxCell id="section4" value="═══ OPERATION 4: MOVE Flow ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#ff9800;" vertex="1" parent="1">
+          <mxGeometry x="800" y="970" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-move" value="MOVE Flow (Change Folder)" style="swimlane;startSize=30;fillColor=#fff3e0;strokeColor=#e65100;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1010" width="2120" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-api" value="PUT /api/flows/:id/move&#xa;{newFolderId}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="70" y="50" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-validate-folder" value="1. Validate Target Folder:&#xa;SELECT * FROM folders&#xa;WHERE id = newFolderId&#xa;Check: exists, user has access" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="230" y="45" width="140" height="85" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-transaction" value="2. Transaction:&#xa;UPDATE test_flows&#xa;SET folderId = newFolderId,&#xa;    updatedAt = NOW()&#xa;WHERE id = flowId" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="410" y="50" width="140" height="85" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-update-folders" value="3. Update Folders:&#xa;UPDATE folders&#xa;SET updatedAt = NOW()&#xa;WHERE id IN&#xa;  (oldFolderId, newFolderId)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="590" y="50" width="140" height="85" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-audit" value="4. Audit:&#xa;INSERT audit_logs&#xa;action: 'MOVE'&#xa;details: {from, to}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="770" y="60" width="110" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="move-success" value="✓ Moved" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=10;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-move">
+          <mxGeometry x="920" y="75" width="80" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- DELETE Operation -->
+        <mxCell id="section5" value="═══ OPERATION 5: DELETE Flow ═══" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#f44336;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1230" width="600" height="25" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane-delete" value="DELETE Flow (Soft or Hard Delete)" style="swimlane;startSize=30;fillColor=#ffebee;strokeColor=#c62828;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1270" width="2120" height="260" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-api" value="DELETE /api/flows/:id&#xa;?hard=false" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="70" y="50" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-check-refs" value="1. Check References:&#xa;SELECT COUNT(*) FROM&#xa;  test_runs&#xa;WHERE flowId = flowId&#xa;&#xa;Warn if runs exist" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="220" y="45" width="130" height="95" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-mode" value="Delete&#xa;mode?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="395" y="60" width="90" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-soft" value="SOFT DELETE:&#xa;UPDATE test_flows&#xa;SET status = 'archived',&#xa;    updatedAt = NOW()&#xa;WHERE id = flowId&#xa;&#xa;(Recoverable)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="530" y="45" width="130" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-hard" value="HARD DELETE:&#xa;DELETE FROM test_flows&#xa;WHERE id = flowId&#xa;&#xa;CASCADE deletes:&#xa;• TestFlowVersions&#xa;• TestRuns (optional)&#xa;&#xa;(Permanent!)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="530" y="155" width="130" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-cleanup-files" value="2. Cleanup Files:&#xa;• Delete upload files&#xa;• Delete backups&#xa;• Delete temp files" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="700" y="65" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-audit" value="3. Audit:&#xa;INSERT audit_logs&#xa;action: 'DELETE'&#xa;details: {mode,&#xa;  flowName}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="860" y="65" width="110" height="75" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="delete-confirm" value="✓ Deleted&#xa;(Check audit log)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=9;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-delete">
+          <mxGeometry x="1010" y="75" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1580" width="540" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="1585" width="160" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-text" value="Atomic Transactions: All operations use Prisma transactions with automatic rollback on failure | Version Control: Every update creates a version snapshot | Soft Delete: Recommended (status='archived') - allows recovery | Hard Delete: Permanent with CASCADE | Backup Strategy: All critical operations create temp backups before execution&#xa;Colors: Green=CREATE/Success | Blue=UPDATE | Purple=CLONE | Orange=MOVE | Red=DELETE | Red Cylinders=DB" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1610" width="500" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Metadata -->
+        <mxCell id="metadata-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="1580" width="520" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-title" value="METADATA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1720" y="1585" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-text" value="Services: atomicFlowSaveService.js, flowService.js, astPlaywrightParser.js | Tables: TestFlow, TestFlowVersion, Folder, AuditLog | Endpoints: POST/PUT/DELETE /api/flows | Version Control: Complete history in TestFlowVersion table | Atomic: All operations in Prisma transactions | Rollback: Automatic on any error | Last Updated: 2025-12-12 | Complexity: Complex (50+ nodes, 5 operations)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="1610" width="480" height="35" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

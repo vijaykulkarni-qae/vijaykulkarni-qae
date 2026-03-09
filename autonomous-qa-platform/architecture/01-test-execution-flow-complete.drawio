@@ -1,0 +1,522 @@
+<mxfile host="app.diagrams.net" modified="2025-12-12T12:00:00.000Z" agent="Autonomous QA - Expert Complete" version="22.1.0">
+  <diagram name="Complete Test Execution Flow (Expert Grade)" id="expert-complete-flow">
+    <mxGraphModel dx="2600" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="3400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title Section -->
+        <mxCell id="title-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#0d47a1;opacity=90;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="2320" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="title" value="Autonomous QA - Complete Single Test Execution Flow (Expert Grade)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="400" y="30" width="1600" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="subtitle" value="End-to-End: User Action → API → Services → Playwright → AI Analysis → Reports → Notifications → Response (with State Transitions, Parallel Processes, Error Recovery)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="200" y="70" width="2000" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- State Transition Timeline (NEW!) -->
+        <mxCell id="lane-states" value="TestRun State Transitions" style="swimlane;startSize=40;fillColor=#e8eaf6;strokeColor=#3f51b5;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="2320" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-1" value="NULL" style="ellipse;whiteSpace=wrap;html=1;fillColor=#bdbdbd;strokeColor=#616161;fontSize=12;fontColor=#ffffff;" vertex="1" parent="lane-states">
+          <mxGeometry x="200" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-2" value="RUNNING" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=12;fontColor=#ffffff;fontStyle=1" vertex="1" parent="lane-states">
+          <mxGeometry x="400" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-3" value="EXECUTING" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=11;fontColor=#ffffff;" vertex="1" parent="lane-states">
+          <mxGeometry x="600" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-4" value="PROCESSING" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=11;fontColor=#000000;" vertex="1" parent="lane-states">
+          <mxGeometry x="800" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-5" value="ANALYZING&#xa;(if failed)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=10;fontColor=#ffffff;" vertex="1" parent="lane-states">
+          <mxGeometry x="1000" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-6" value="REPORTING" style="ellipse;whiteSpace=wrap;html=1;fillColor=#00bcd4;strokeColor=#006064;fontSize=11;fontColor=#ffffff;" vertex="1" parent="lane-states">
+          <mxGeometry x="1200" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-7-pass" value="PASSED" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=12;fontColor=#ffffff;fontStyle=1" vertex="1" parent="lane-states">
+          <mxGeometry x="1400" y="40" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-7-fail" value="FAILED" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=12;fontColor=#ffffff;fontStyle=1" vertex="1" parent="lane-states">
+          <mxGeometry x="1400" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-8" value="NOTIFYING" style="ellipse;whiteSpace=wrap;html=1;fillColor=#81c784;strokeColor=#2e7d32;fontSize=11;fontColor=#ffffff;" vertex="1" parent="lane-states">
+          <mxGeometry x="1600" y="60" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="state-9" value="COMPLETED" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=12;fontColor=#ffffff;fontStyle=1" vertex="1" parent="lane-states">
+          <mxGeometry x="1800" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- State transition arrows -->
+        <mxCell id="state-arrow-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-1" target="state-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-2" target="state-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-3" target="state-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-4" target="state-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-5" target="state-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-6-pass" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#4caf50;endArrow=classic;endFill=1;dashed=1;" edge="1" parent="lane-states" source="state-6" target="state-7-pass">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-6-fail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#f44336;endArrow=classic;endFill=1;dashed=1;" edge="1" parent="lane-states" source="state-6" target="state-7-fail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-7-pass" target="state-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1550" y="70" />
+              <mxPoint x="1550" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="state-arrow-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#1976d2;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-7-fail" target="state-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="state-arrow-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#4caf50;endArrow=classic;endFill=1;" edge="1" parent="lane-states" source="state-8" target="state-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: User/Frontend Layer -->
+        <mxCell id="lane-user" value="Layer 1: User / Frontend (React + WebSocket Real-time)" style="swimlane;startSize=40;fillColor=#e1f5fe;strokeColor=#01579b;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="2320" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-click" value="1. User clicks&#xa;'Run Test'&#xa;button" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=12;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="40" y="60" width="140" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="frontend-api-call" value="2. POST /api/flows/:id/run&#xa;Headers: Authorization&#xa;Body: {browser: 'chromium',&#xa;headless: true}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="220" y="60" width="180" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ws-connection" value="WebSocket&#xa;Connected&#xa;(socket.io)&#xa;room: user-{id}" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="440" y="65" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ws-started" value="3. Receive:&#xa;'execution:started'&#xa;{runId, flowName}&#xa;Show loading" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="960" y="65" width="130" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ws-progress" value="4. Receive (loop):&#xa;'step:completed'&#xa;{step, status, %, time}&#xa;Update progress bar" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="1560" y="65" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ws-complete" value="5. Receive:&#xa;'execution:completed'&#xa;{status, duration, report}&#xa;Display results + toast" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="2020" y="65" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="show-report" value="6. User clicks&#xa;'View Report'&#xa;→ Open Allure&#xa;HTML in new tab" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="2180" y="60" width="120" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: Backend API + Security Layer -->
+        <mxCell id="lane-api" value="Layer 2: Backend API + Security (Express.js + Middleware Chain)" style="swimlane;startSize=40;fillColor=#fff9c4;strokeColor=#f57f17;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="500" width="2320" height="320" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rate-limit" value="1. Rate Limiting&#xa;Check per-user limit&#xa;(30 req/min)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=9;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="220" y="60" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rate-limit-check" value="Limit&#xa;exceeded?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="240" y="150" width="100" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="rate-limit-fail" value="429 Too Many&#xa;Requests&#xa;Retry-After: 60s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="240" y="240" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="auth-middleware" value="2. authMiddleware.js&#xa;• Extract JWT from header&#xa;• jwt.verify(token, SECRET)&#xa;• Load user from DB&#xa;• Check user.isActive&#xa;• Attach req.user" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=9;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="380" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="auth-check" value="Token valid&#xa;&amp; user active?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="410" y="180" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="auth-fail" value="401 Unauthorized&#xa;Clear token&#xa;Redirect to login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="560" y="195" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="audit-log" value="3. auditMiddleware.js&#xa;INSERT INTO audit_logs&#xa;(userId, action='EXECUTE_TEST',&#xa;resource='TestFlow',&#xa;resourceId=flowId,&#xa;ipAddress, userAgent)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#8bc34a;strokeColor=#558b2f;fontSize=8;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="720" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-route" value="4. flowRoutes.js&#xa;POST /api/flows/:id/run&#xa;• Validate flowId (cuid format)&#xa;• Check user permissions&#xa;• Sanitize inputs&#xa;• Validate browser param" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="920" y="60" width="170" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-exists" value="Flow exists,&#xa;active,&#xa;&amp; user has&#xa;access?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="955" y="180" width="100" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow-not-found" value="404 Not Found&#xa;or&#xa;403 Forbidden&#xa;(with reason)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="1120" y="190" width="100" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-service" value="5. Call Service&#xa;executionService&#xa;.execute(&#xa;  flowId, userId,&#xa;  {browser, headless}&#xa;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="1260" y="60" width="140" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: Execution Service + Resource Management -->
+        <mxCell id="lane-exec-service" value="Layer 3: Execution Service + Resource Management" style="swimlane;startSize=40;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="840" width="2320" height="480" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="exec-service-start" value="executionService.js&#xa;execute(flowId, userId, options)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=11;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1260" y="60" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="parallel-fork" value="PARALLEL&#xa;EXECUTION&#xa;(Fork)" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=10;fontStyle=1;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1260" y="150" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Parallel Branch 1: Load Flow -->
+        <mxCell id="load-flow" value="Branch 1:&#xa;Load TestFlow from DB&#xa;• rawScript&#xa;• steps (JSON)&#xa;• metadata&#xa;• requiresUploadFile" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=9;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="900" y="240" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Parallel Branch 2: Create TestRun -->
+        <mxCell id="create-testrun" value="Branch 2:&#xa;Prisma Transaction:&#xa;CREATE TestRun&#xa;status: 'running'&#xa;triggeredBy: userId&#xa;startTime: NOW()&#xa;browser, metadata" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=8;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1090" y="240" width="140" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Parallel Branch 3: WebSocket Emit -->
+        <mxCell id="emit-started" value="Branch 3:&#xa;WebSocket Emit&#xa;socket.to(userId)&#xa;  .emit(&#xa;'execution:started',&#xa;{runId, flowName,&#xa;totalSteps})" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1270" y="240" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Parallel Branch 4: Check Upload -->
+        <mxCell id="check-upload" value="Branch 4:&#xa;Upload file&#xa;required?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1460" y="250" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="upload-check-path" value="Check file exists:&#xa;data/uploads/&#xa;{flowId}/&#xa;{uploadFileName}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1620" y="260" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="upload-missing" value="ERROR:&#xa;Update TestRun&#xa;status: 'failed'&#xa;error: 'Upload missing'&#xa;ROLLBACK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1800" y="250" width="130" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Join Point -->
+        <mxCell id="parallel-join" value="JOIN&#xa;(Wait all branches)" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=10;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="1260" y="370" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="spawn-playwright" value="Spawn Playwright&#xa;child_process.spawn(&#xa;'npx playwright test',&#xa;{browser, headless,&#xa;video: 'on',&#xa;screenshot: 'on'})" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00bcd4;strokeColor=#006064;fontSize=8;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="900" y="360" width="160" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="write-temp-file" value="Write test script&#xa;to temp file:&#xa;/tmp/test-{runId}.spec.js&#xa;Include upload file path&#xa;if required" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-exec-service">
+          <mxGeometry x="720" y="365" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: Playwright Execution + Step Loop -->
+        <mxCell id="lane-playwright" value="Layer 4: Playwright Execution (Child Process) + Step Execution Loop" style="swimlane;startSize=40;fillColor=#e0f2f1;strokeColor=#004d40;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1340" width="2320" height="600" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-start" value="Playwright Process&#xa;Starts (child process)&#xa;PID: {processId}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00bcd4;strokeColor=#006064;fontSize=11;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="720" y="60" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-browser-launch" value="1. Launch Browser&#xa;chromium.launch({&#xa;  headless: true,&#xa;  args: ['--no-sandbox'],&#xa;  video: {dir: 'videos/'},&#xa;  screenshot: 'on'&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#80deea;strokeColor=#006064;fontSize=8;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="920" y="60" width="180" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-context" value="2. Create Context&#xa;browser.newContext({&#xa;  viewport: {width, height},&#xa;  permissions: [...],&#xa;  locale: 'en-US'&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#80deea;strokeColor=#006064;fontSize=8;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1130" y="60" width="180" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-page" value="3. Create Page&#xa;page = context.newPage()&#xa;Set default timeout: 30s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#80deea;strokeColor=#006064;fontSize=9;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1340" y="60" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-step-loop" value="FOR EACH STEP&#xa;in test script&#xa;(i = 1 to N)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=11;fontStyle=1;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1350" y="160" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-step-counter" value="Calculate Progress:&#xa;progress = (i / N) * 100" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=9;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1530" y="175" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-execute-step" value="Execute Step {i}:&#xa;• page.goto(url)&#xa;• page.click(selector)&#xa;• page.fill(selector, value)&#xa;• page.press(key)&#xa;• page.waitForSelector(...)&#xa;• expect(locator).toBeVisible()&#xa;Measure duration: startTime → endTime" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff59d;strokeColor=#f57f17;fontSize=8;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1700" y="160" width="200" height="130" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-retry" value="Step failed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff5722;strokeColor=#bf360c;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1940" y="180" width="100" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-retry-logic" value="Retry (max 3):&#xa;Wait 1s, 2s, 4s&#xa;(exponential backoff)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="2080" y="190" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-screenshot" value="Take Screenshot&#xa;page.screenshot({&#xa;  path: '{runId}/step-{i}.png',&#xa;  fullPage: false&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1730" y="320" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-step-success" value="Step passed&#xa;after retries?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1520" y="330" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-step-fail" value="Step FAILED:&#xa;• Capture error stack&#xa;• Take failure screenshot&#xa;• Mark step status: 'failed'&#xa;• errorMessage, selector&#xa;• Continue if non-critical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1270" y="320" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-save-step" value="Save to Backend:&#xa;INSERT TestRunStep&#xa;{runId, stepOrder: i,&#xa;stepId, action, selector,&#xa;status: 'passed'/'failed',&#xa;duration, screenshotPath,&#xa;errorMessage}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1050" y="320" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-emit-progress" value="Backend emits:&#xa;'step:completed'&#xa;{runId, stepOrder: i,&#xa;status, progress: X%,&#xa;elapsedTime}" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="830" y="330" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-critical-fail" value="Critical failure?&#xa;(stop test)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1280" y="450" width="110" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-stop-test" value="STOP Test&#xa;Close browser&#xa;Exit loop" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d32f2f;strokeColor=#b71c1c;fontSize=9;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="1275" y="540" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-more-steps" value="i &lt; N ?&#xa;(more steps)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=10;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="650" y="340" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-loop-back" value="i++&#xa;(next step)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=9;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="670" y="450" width="80" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pw-complete" value="All Steps Complete&#xa;Close browser&#xa;Stop video recording&#xa;Save trace file" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=10;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-playwright">
+          <mxGeometry x="440" y="345" width="160" height="75" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: AI Analysis (NEW!) -->
+        <mxCell id="lane-ai" value="Layer 5: AI Analysis (If Test Failed) - NEW!" style="swimlane;startSize=40;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1960" width="2320" height="360" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-check-fail" value="Test has&#xa;failures?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=11;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="440" y="70" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-skip" value="Skip AI Analysis&#xa;(all passed)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e0e0e0;strokeColor=#616161;fontSize=10;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="450" y="180" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-analyze" value="1. globalAIService.js&#xa;analyzeTestFailure({&#xa;  testRun, failedSteps,&#xa;  screenshots, errors&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ba68c8;strokeColor=#4a148c;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="600" y="70" width="160" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-load-provider" value="2. Load Primary&#xa;AI Provider&#xa;(OpenAI/Claude/Gemini)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ce93d8;strokeColor=#7b1fa2;fontSize=9;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="800" y="70" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-build-context" value="3. Build Context:&#xa;• Failed step details&#xa;• Error messages&#xa;• Screenshots (base64)&#xa;• Element selectors&#xa;• Page URL&#xa;• Knowledge base docs" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#7b1fa2;fontSize=8;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="980" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-call-api" value="4. Call AI API:&#xa;messages: [&#xa;  {role: 'system', content: 'Analyze...'},&#xa;  {role: 'user', content: context}&#xa;]&#xa;Retry: 3x with exp. backoff" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ab47bc;strokeColor=#6a1b9a;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1180" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-parse-response" value="5. Parse AI Response:&#xa;• Root cause&#xa;• Suggested fix&#xa;• Severity (low/medium/high)&#xa;• Affected elements&#xa;• Confidence score" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ce93d8;strokeColor=#7b1fa2;fontSize=8;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1380" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-create-deviation" value="6. CREATE Deviation:&#xa;INSERT INTO deviations&#xa;{runId, type: 'test_failure',&#xa;severity, description,&#xa;aiAnalysis: {&#xa;  rootCause, suggestedFix,&#xa;  confidence, provider&#xa;}}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1580" y="60" width="160" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-track-usage" value="7. Track AI Usage:&#xa;usageTracker.increment({&#xa;  provider, tokens,&#xa;  requestTime, cost&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8bbd0;strokeColor=#880e4f;fontSize=8;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1780" y="70" width="150" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-emit-event" value="8. WebSocket Emit:&#xa;'ai:analysis:complete'&#xa;{runId, severity,&#xa;rootCause}" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1980" y="80" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-fallback" value="AI API Failed?&#xa;Retry 3x → Fallback&#xa;to next provider&#xa;→ Skip if all fail" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffab91;strokeColor=#d84315;fontSize=8;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1185" y="190" width="150" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-circuit-breaker" value="Circuit Breaker:&#xa;5 consecutive fails&#xa;→ Disable provider 5min" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#bf360c;fontSize=8;shadow=1;" vertex="1" parent="lane-ai">
+          <mxGeometry x="1195" y="280" width="130" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: Post-Execution (Allure Report + Cleanup) -->
+        <mxCell id="lane-post-exec" value="Layer 6: Post-Execution (Allure Report + Resource Cleanup)" style="swimlane;startSize=40;fillColor=#fff3e0;strokeColor=#e65100;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="2340" width="2320" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-update-status" value="1. Update TestRun:&#xa;status = passed/failed&#xa;endTime = NOW()&#xa;duration = endTime - startTime&#xa;Calculate:&#xa;totalTests, passedTests,&#xa;failedTests, skippedTests" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=8;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="450" y="60" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-allure-collect" value="2. Collect Allure Results:&#xa;• allure-results/*.json&#xa;• test-results/&#xa;• screenshots&#xa;• videos&#xa;• trace files" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe0b2;strokeColor=#e65100;fontSize=8;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="670" y="70" width="160" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-allure-generate" value="3. Generate Allure Report:&#xa;allureEnrichmentService&#xa;.generateReport(runId)&#xa;Command:&#xa;'npx allure generate&#xa; allure-results/&#xa; -o allure-reports/{runId}'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcc80;strokeColor=#e65100;fontSize=7;fontColor=#000000;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="870" y="60" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-allure-enrich" value="4. Enrich Allure Report:&#xa;allureCategoryBuilder.js&#xa;• Add P0/P1/P2 categories&#xa;• Add custom trends&#xa;• Add environment info&#xa;• Add executor details" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffb74d;strokeColor=#ef6c00;fontSize=8;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="1090" y="60" width="170" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-save-assets" value="5. Save TestAssets:&#xa;FOR EACH artifact&#xa;INSERT TestAsset&#xa;{runId, type, filePath,&#xa;sizeBytes, width, height,&#xa;duration (video)}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="1300" y="60" width="160" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-report-url" value="6. Update Report URL:&#xa;TestRun.allureReportUrl&#xa;= '{BACKEND_URL}/&#xa;allure-reports/{runId}/&#xa;index.html'" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="1500" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-cleanup-temp" value="7. Cleanup Temp Files:&#xa;• Delete /tmp/test-{runId}.spec.js&#xa;• Delete raw allure-results&#xa;• Keep only final report" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="1700" y="70" width="160" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-cleanup-browser" value="8. Resource Cleanup:&#xa;• Close browser (if not closed)&#xa;• Kill Playwright process&#xa;• Release port&#xa;• Free memory&#xa;• Log resource usage" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#cfd8dc;strokeColor=#455a64;fontSize=8;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="1900" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="post-calc-size" value="Calculate Total Size:&#xa;artifactsSizeBytes =&#xa;SUM(TestAssets.sizeBytes)&#xa;Store in TestRun" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ffa000;fontSize=8;shadow=1;" vertex="1" parent="lane-post-exec">
+          <mxGeometry x="1310" y="200" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: Webhook Notification (Fire-and-Forget) -->
+        <mxCell id="lane-webhook" value="Layer 7: Webhook Notification (Fire-and-Forget)" style="swimlane;startSize=40;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="2740" width="2320" height="280" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-check-active" value="Query WebhookConfig:&#xa;WHERE isActive = true" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=9;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="460" y="70" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-found" value="Webhooks&#xa;found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=11;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="670" y="75" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-skip" value="Skip Notification&#xa;(no webhooks)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e0e0e0;strokeColor=#616161;fontSize=10;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="680" y="170" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-build-payload" value="webhookPayloadBuilder.js:&#xa;Build payload from&#xa;selected fields:&#xa;testName, status, reportUrl,&#xa;totalTests, passedTests,&#xa;failedTests, duration,&#xa;triggeredBy, executionType" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=8;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="840" y="60" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-template" value="Apply Template:&#xa;• Google Chat Cards&#xa;• Slack Blocks&#xa;• Generic JSON" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a5d6a7;strokeColor=#2e7d32;fontSize=9;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="1060" y="75" width="140" height="85" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-post" value="FOR EACH webhook:&#xa;POST to webhook.url&#xa;Timeout: 5 seconds&#xa;(async, non-blocking)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#81c784;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="1240" y="70" width="160" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-response" value="Response?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#66bb6a;strokeColor=#2e7d32;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="1450" y="80" width="100" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-success" value="Log Success:&#xa;Webhook delivered&#xa;to {url}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="1600" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-fail" value="Log Error:&#xa;Webhook failed {url}&#xa;Reason: {error}&#xa;DON'T fail test!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="1600" y="140" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webhook-continue" value="IMPORTANT:&#xa;Webhook failures&#xa;NEVER block&#xa;test execution!" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=9;fontStyle=1;shadow=1;" vertex="1" parent="lane-webhook">
+          <mxGeometry x="1770" y="85" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Swim Lane: Final Response -->
+        <mxCell id="lane-response" value="Layer 8: Final Response to Frontend" style="swimlane;startSize=40;fillColor=#e3f2fd;strokeColor=#1565c0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="3040" width="2320" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="response-emit-complete" value="WebSocket Emit:&#xa;'execution:completed'&#xa;{&#xa;  runId, status, duration,&#xa;  reportUrl, totalTests,&#xa;  passedTests, failedTests,&#xa;  aiAnalysis (if failed)&#xa;}" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="480" y="70" width="180" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="response-audit-log" value="Final Audit Log:&#xa;INSERT audit_logs&#xa;action: 'EXECUTE_TEST'&#xa;status: 'completed'&#xa;duration, outcome" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=8;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="720" y="70" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="response-http" value="HTTP Response:&#xa;200 OK&#xa;{&#xa;  success: true,&#xa;  runId, status,&#xa;  reportUrl,&#xa;  duration,&#xa;  results: {&#xa;    total, passed, failed&#xa;  }&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#64b5f6;strokeColor=#1976d2;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="940" y="60" width="180" height="130" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="response-update-flow-stats" value="Update TestFlow Stats:&#xa;lastExecutedAt = NOW()&#xa;executionCount++&#xa;successRate = (passed/total)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=8;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1180" y="70" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="response-metrics" value="Log Performance Metrics:&#xa;• Total execution time&#xa;• DB query time&#xa;• Playwright startup time&#xa;• Allure generation time&#xa;• WebSocket latency" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#90caf9;strokeColor=#1565c0;fontSize=8;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1420" y="70" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="response-end" value="END&#xa;Execution Complete!" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=14;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1680" y="75" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend Section -->
+        <mxCell id="legend-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="80" y="3340" width="500" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="3350" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-colors" value="Color Meanings:&#xa;• Green: User actions, success states&#xa;• Blue: API calls, backend routes&#xa;• Purple: Services (execution, AI, atomic)&#xa;• Red Cylinders: Database operations&#xa;• Orange Ellipses: WebSocket events&#xa;• Cyan: External systems (Playwright, AI APIs)&#xa;• Gray/Brown: File system operations&#xa;• Yellow: Decisions, conditions&#xa;• Red: Errors, failures, critical paths&#xa;• Light Green: Webhooks, notifications" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="3390" width="460" height="160" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-shapes" value="Shape Meanings:&#xa;• Rectangle: Process/action node&#xa;• Diamond: Decision point (if/else)&#xa;• Cylinder: Database query/operation&#xa;• Ellipse: WebSocket/async event&#xa;• Rounded Rectangle: Start/end points&#xa;• Parallelogram: Parallel fork/join&#xa;&#xa;Arrow Types:&#xa;• Solid: Synchronous flow&#xa;• Dashed: Async/non-blocking&#xa;• Thick: Critical path&#xa;• Red Thick: Error/rollback path" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="3560" width="460" height="150" as="geometry" />
+        </mxCell>
+        
+        <!-- Metadata Section -->
+        <mxCell id="metadata-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="1800" y="3340" width="480" height="380" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-title" value="FLOW METADATA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1940" y="3350" width="200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-content" value="Flow Name: Single Test Execution Flow&#xa;Scope: User → API → Execution → Reporting → Notification&#xa;&#xa;Services Involved:&#xa;• executionService.js (orchestrator)&#xa;• allureEnrichmentService.js (reporting)&#xa;• globalAIService.js (AI analysis)&#xa;• webhookService.js (notifications)&#xa;• atomicFlowSaveService.js (data persistence)&#xa;&#xa;Database Tables:&#xa;• TestRun (execution record)&#xa;• TestRunStep (step-by-step results)&#xa;• TestAsset (screenshots, videos, traces)&#xa;• Deviation (AI failure analysis)&#xa;• AuditLog (compliance tracking)&#xa;&#xa;API Endpoints:&#xa;• POST /api/flows/:id/run (primary)&#xa;&#xa;WebSocket Events:&#xa;• execution:started&#xa;• step:completed (loop)&#xa;• ai:analysis:complete&#xa;• execution:completed&#xa;&#xa;Real-time: WebSocket (socket.io)&#xa;Last Updated: 2025-12-12&#xa;Complexity: Expert Grade (150+ nodes, 8 swim lanes)&#xa;Expected Duration: 30s - 5 minutes&#xa;Industry Pattern: GitHub Actions, CircleCI, Jenkins" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1820" y="3390" width="440" height="320" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

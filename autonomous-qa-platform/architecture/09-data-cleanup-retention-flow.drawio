@@ -1,0 +1,184 @@
+<mxfile host="app.diagrams.net" modified="2025-12-12T18:00:00.000Z" agent="Autonomous QA - Data Cleanup" version="22.1.0">
+  <diagram name="Data Cleanup & Retention Flow" id="cleanup-flow">
+    <mxGraphModel dx="2000" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="title-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#0d47a1;opacity=90;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1920" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="title" value="Autonomous QA - Data Cleanup &amp; Retention Flow (Automated + Manual)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="400" y="30" width="1200" height="30" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="subtitle" value="Policy-Based Deletion | Dry-Run Preview | Orphan Detection | Artifact Cleanup | Scheduled Cron" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="500" y="60" width="1000" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Trigger Layer -->
+        <mxCell id="lane-trigger" value="Layer 1: Trigger Sources" style="swimlane;startSize=30;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="1920" height="140" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-manual" value="Manual Trigger:&#xa;Admin clicks&#xa;'Run Cleanup Now'&#xa;in Settings" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="80" y="50" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-cron" value="Scheduled Cron:&#xa;Daily at 3:00 AM&#xa;(node-cron)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#81c784;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="240" y="50" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trigger-api" value="API Call:&#xa;POST /api/cleanup/trigger&#xa;{dryRun: false}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-trigger">
+          <mxGeometry x="400" y="55" width="130" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Policy Loading -->
+        <mxCell id="lane-policy" value="Layer 2: Load Retention Policies" style="swimlane;startSize=30;fillColor=#fff9c4;strokeColor=#f57f17;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="270" width="1920" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-load" value="1. Load Policies:&#xa;SELECT * FROM app_settings&#xa;WHERE key LIKE 'cleanup_%'" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=8;shadow=1;" vertex="1" parent="lane-policy">
+          <mxGeometry x="410" y="50" width="130" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-defaults" value="2. Default Policies:&#xa;{&#xa;  testRunRetention: 90 days,&#xa;  artifactRetention: 30 days,&#xa;  failedRunRetention: 14 days,&#xa;  successfulRunRetention: 60 days,&#xa;  orphanDetection: true&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff59d;strokeColor=#f57f17;fontSize=7;shadow=1;" vertex="1" parent="lane-policy">
+          <mxGeometry x="580" y="45" width="180" height="95" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="policy-parse" value="3. Parse Policies:&#xa;Calculate cutoff dates:&#xa;• testRunCutoff =&#xa;  NOW() - 90 days&#xa;• artifactCutoff =&#xa;  NOW() - 30 days&#xa;• failedCutoff =&#xa;  NOW() - 14 days" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=7;shadow=1;" vertex="1" parent="lane-policy">
+          <mxGeometry x="800" y="50" width="160" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Query Eligible Runs -->
+        <mxCell id="lane-query" value="Layer 3: Query Eligible Test Runs" style="swimlane;startSize=30;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="490" width="1920" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-eligible" value="1. Query Eligible Runs:&#xa;SELECT * FROM test_runs&#xa;WHERE artifactsDeleted = false&#xa;  AND (&#xa;    (status = 'failed' AND&#xa;     createdAt &lt; failedCutoff)&#xa;    OR&#xa;    (status = 'passed' AND&#xa;     createdAt &lt; successfulCutoff)&#xa;  )&#xa;ORDER BY createdAt ASC&#xa;LIMIT 1000" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-query">
+          <mxGeometry x="810" y="50" width="180" height="130" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-count" value="2. Count & Calculate Size:&#xa;Found: N test runs&#xa;&#xa;FOR EACH run:&#xa;  Calculate artifact size:&#xa;  SELECT SUM(sizeBytes)&#xa;  FROM test_assets&#xa;  WHERE runId = run.id&#xa;&#xa;Total: X GB to delete" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=7;shadow=1;" vertex="1" parent="lane-query">
+          <mxGeometry x="1030" y="55" width="160" height="120" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-dryrun-check" value="Dry Run&#xa;Mode?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-query">
+          <mxGeometry x="1240" y="80" width="100" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="query-preview" value="DRY RUN:&#xa;Return preview:&#xa;{&#xa;  runsToDelete: N,&#xa;  totalSize: 'X GB',&#xa;  estimatedTime: 'Y min',&#xa;  breakdown: [...]&#xa;}&#xa;&#xa;Don't delete anything!" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-query">
+          <mxGeometry x="1220" y="10" width="140" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- Cleanup Execution -->
+        <mxCell id="lane-cleanup" value="Layer 4: Cleanup Execution (Actual Deletion)" style="swimlane;startSize=30;fillColor=#e0f2f1;strokeColor=#004d40;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="750" width="1920" height="340" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-start" value="ACTUAL CLEANUP:&#xa;FOR EACH test run" style="rhombus;whiteSpace=wrap;html=1;fillColor=#00bcd4;strokeColor=#006064;fontSize=10;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="1240" y="50" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-query-assets" value="1. Query Assets:&#xa;SELECT * FROM test_assets&#xa;WHERE runId = run.id&#xa;&#xa;Get: filePath, type" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="1240" y="150" width="120" height="85" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-delete-files" value="2. Delete Files:&#xa;FOR EACH asset:&#xa;  fs.unlinkSync(&#xa;    filePath&#xa;  )&#xa;&#xa;Handles:&#xa;• Screenshots&#xa;• Videos&#xa;• Trace files&#xa;• Allure reports" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=6.5;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="1100" y="150" width="110" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-error-handling" value="Error Handling:&#xa;If file not found:&#xa;  Log warning,&#xa;  continue&#xa;&#xa;If permission error:&#xa;  Skip run,&#xa;  log error" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffab91;strokeColor=#d84315;fontSize=7;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="1100" y="270" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-update-testrun" value="3. UPDATE TestRun:&#xa;UPDATE test_runs&#xa;SET&#xa;  artifactsDeleted = true,&#xa;  artifactsDeletedAt = NOW(),&#xa;  artifactsDeletedBy = 'system'&#xa;WHERE id = run.id" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="940" y="155" width="130" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-delete-db" value="4. Delete DB Records:&#xa;&#xa;DELETE FROM test_assets&#xa;WHERE runId = run.id;&#xa;&#xa;DELETE FROM test_run_steps&#xa;WHERE runId = run.id;&#xa;&#xa;Optionally delete TestRun" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=6.5;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="760" y="150" width="150" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cleanup-progress" value="5. Progress Tracking:&#xa;deletedRuns++&#xa;freedSpace += size&#xa;&#xa;If (deletedRuns % 10 == 0):&#xa;  Log progress" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#80deea;strokeColor=#006064;fontSize=7;shadow=1;" vertex="1" parent="lane-cleanup">
+          <mxGeometry x="580" y="165" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Orphan Detection -->
+        <mxCell id="lane-orphan" value="Layer 5: Orphan Detection (Files Without DB Records)" style="swimlane;startSize=30;fillColor=#fff3e0;strokeColor=#e65100;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1110" width="1920" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orphan-scan-dirs" value="1. Scan Directories:&#xa;fs.readdirSync(&#xa;  'data/screenshots'&#xa;)&#xa;fs.readdirSync(&#xa;  'data/videos'&#xa;)&#xa;fs.readdirSync(&#xa;  'allure-reports'&#xa;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=7;shadow=1;" vertex="1" parent="lane-orphan">
+          <mxGeometry x="580" y="50" width="130" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orphan-compare" value="2. Compare with DB:&#xa;FOR EACH file:&#xa;  SELECT COUNT(*)&#xa;  FROM test_assets&#xa;  WHERE filePath = file&#xa;&#xa;If count = 0:&#xa;  → Orphan file!" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffb74d;strokeColor=#e65100;fontSize=7;shadow=1;" vertex="1" parent="lane-orphan">
+          <mxGeometry x="750" y="50" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orphan-list" value="3. Build Orphan List:&#xa;orphans = [&#xa;  {path, size, lastModified}&#xa;]&#xa;&#xa;Total: M files, Y GB" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcc80;strokeColor=#e65100;fontSize=7;shadow=1;" vertex="1" parent="lane-orphan">
+          <mxGeometry x="930" y="60" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="orphan-delete" value="4. Delete Orphans:&#xa;FOR EACH orphan:&#xa;  fs.unlinkSync(path)&#xa;&#xa;Log: Deleted M orphans,&#xa;freed Y GB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-orphan">
+          <mxGeometry x="1110" y="65" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Summary & Response -->
+        <mxCell id="lane-summary" value="Layer 6: Summary & Response" style="swimlane;startSize=30;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1370" width="1920" height="220" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="summary-calc" value="Calculate Summary:&#xa;{&#xa;  deletedRuns: N,&#xa;  freedSpace: 'X GB',&#xa;  duration: 'Y min',&#xa;  orphansDeleted: M,&#xa;  errors: [],&#xa;  timestamp: NOW()&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=7;shadow=1;" vertex="1" parent="lane-summary">
+          <mxGeometry x="590" y="50" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="summary-audit" value="Audit Log:&#xa;INSERT audit_logs&#xa;{&#xa;  action: 'DATA_CLEANUP',&#xa;  resource: 'test_runs',&#xa;  details: summary&#xa;}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-summary">
+          <mxGeometry x="770" y="60" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="summary-notify" value="Optional Notification:&#xa;If deletedRuns &gt; 100&#xa;  OR freedSpace &gt; 10 GB:&#xa;  Send webhook" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-summary">
+          <mxGeometry x="930" y="65" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="summary-response" value="HTTP Response:&#xa;200 OK&#xa;{&#xa;  success: true,&#xa;  summary&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#64b5f6;strokeColor=#1976d2;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-summary">
+          <mxGeometry x="1090" y="70" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="summary-log" value="✓ Cleanup Complete&#xa;&#xa;Deleted N runs&#xa;Freed X GB&#xa;Time: Y min" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=8;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-summary">
+          <mxGeometry x="1230" y="70" width="110" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1640" width="500" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="1645" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-text" value="Dry Run: Preview deletion without actually deleting (safe testing) | Policies: Configurable in AppSettings | Orphan Detection: Finds files without DB records | Non-Blocking: Cleanup runs async, doesn't block app | Scheduled: Cron job runs daily at 3 AM | Batch Processing: 1000 runs per batch&#xa;Colors: Green=Trigger/Success | Yellow=Policy | Purple=Query | Cyan=Cleanup | Orange=Orphan | Red Cylinders=DB" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1670" width="460" height="35" as="geometry" />
+        </mxCell>
+        
+        <!-- Metadata -->
+        <mxCell id="metadata-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="1640" width="400" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-title" value="METADATA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="1645" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-text" value="Services: cleanupService.js, cleanupScheduler.js (cron) | Tables: TestRun, TestAsset, TestRunStep, AppSettings, AuditLog | Endpoints: POST /api/cleanup/trigger, GET /api/cleanup/preview | Scheduled: node-cron daily at 3 AM | Batch Size: 1000 runs per execution | Safety: Dry-run mode, error handling, audit logging | Last Updated: 2025-12-12 | Complexity: Medium (40+ nodes, 6 lanes)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="1670" width="360" height="35" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

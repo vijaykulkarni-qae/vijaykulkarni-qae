@@ -1,0 +1,229 @@
+<mxfile host="app.diagrams.net" modified="2025-12-12T16:00:00.000Z" agent="Autonomous QA - AI Script Analysis" version="22.1.0">
+  <diagram name="AI Script Analysis Flow" id="ai-analysis-flow">
+    <mxGraphModel dx="2200" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a237e;strokeColor=#0d47a1;opacity=90;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="2120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="title" value="Autonomous QA - AI Script Analysis Flow (Multi-Provider with Retry &amp; Fallback)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="500" y="25" width="1200" height="35" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="subtitle" value="9 AI Providers | Intent Detection | Knowledge Base Integration | Circuit Breaker | Usage Tracking" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="600" y="60" width="1000" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- User/Frontend Layer -->
+        <mxCell id="lane-user" value="Layer 1: User / Frontend (AI Chat Interface)" style="swimlane;startSize=40;fillColor=#e1f5fe;strokeColor=#01579b;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="2120" height="180" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-open-chat" value="1. User opens&#xa;AI Chat for&#xa;test flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=11;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="70" y="60" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-type-query" value="2. User types query:&#xa;&#xa;'Add error handling&#xa;to login steps'&#xa;or&#xa;'What does this test do?'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="230" y="55" width="170" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-send" value="3. Click Send&#xa;or press Enter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="440" y="65" width="110" height="55" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-loading" value="4. See Loading:&#xa;'AI is analyzing...'" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="1450" y="65" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-response" value="5. View Response:&#xa;• Question: Show answer&#xa;• Modification: Show&#xa;  Accept/Reject buttons" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-user">
+          <mxGeometry x="1920" y="60" width="140" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Backend API Layer -->
+        <mxCell id="lane-api" value="Layer 2: Backend API + Intent Detection" style="swimlane;startSize=40;fillColor=#fff9c4;strokeColor=#f57f17;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="310" width="2120" height="220" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-post" value="POST /api/ai/analyze&#xa;Body: {&#xa;  flowId,&#xa;  prompt,&#xa;  intent: 'auto'&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2196f3;strokeColor=#0d47a1;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="445" y="60" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-auth" value="1. Auth Check" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffc107;strokeColor=#ff6f00;fontSize=10;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="610" y="70" width="90" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-load-flow" value="2. Load TestFlow:&#xa;SELECT * FROM test_flows&#xa;WHERE id = flowId&#xa;Get rawScript, steps" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="740" y="55" width="130" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-intent-detect" value="3. Intent Detection:&#xa;&#xa;Keywords:&#xa;'what/how/why/explain'&#xa;→ QUESTION&#xa;&#xa;'add/change/update/fix'&#xa;→ MODIFICATION" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffeb3b;strokeColor=#f57f17;fontSize=7;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="910" y="50" width="150" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-call-service" value="4. Call globalAIService:&#xa;analyzeScript({&#xa;  flowId,&#xa;  rawScript,&#xa;  steps,&#xa;  prompt,&#xa;  intent&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api">
+          <mxGeometry x="1100" y="60" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- AI Service Layer -->
+        <mxCell id="lane-ai-service" value="Layer 3: Global AI Service (Provider Selection &amp; Orchestration)" style="swimlane;startSize=40;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="550" width="2120" height="320" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-service-start" value="globalAIService.js&#xa;analyzeScript()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9c27b0;strokeColor=#4a148c;fontSize=11;fontStyle=1;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="1110" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-load-primary" value="1. Load Primary Provider:&#xa;SELECT * FROM ai_providers&#xa;WHERE isPrimary = true&#xa;AND isActive = true" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffcdd2;strokeColor=#c62828;fontSize=7;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="1110" y="140" width="140" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-check-provider" value="Provider&#xa;found?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="1140" y="250" width="80" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-no-provider" value="Error: No AI&#xa;provider configured" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="1000" y="255" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-provider-router" value="2. Route to Provider:&#xa;switch(provider.name)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ba68c8;strokeColor=#7b1fa2;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="920" y="130" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-openai" value="OpenAIProvider" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=9;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="750" y="145" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-claude" value="ClaudeProvider" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=9;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="750" y="195" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-gemini" value="GeminiProvider" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1bee7;strokeColor=#4a148c;fontSize=9;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="750" y="245" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ai-others" value="+ 6 more providers:&#xa;Groq, Ollama, Mistral,&#xa;Cohere, LocalAI, Custom" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ce93d8;strokeColor=#7b1fa2;fontSize=7;shadow=1;" vertex="1" parent="lane-ai-service">
+          <mxGeometry x="620" y="175" width="110" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Knowledge Base & Context Layer -->
+        <mxCell id="lane-context" value="Layer 4: Context Building (Knowledge Base + Test Script)" style="swimlane;startSize=40;fillColor=#e0f2f1;strokeColor=#004d40;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="890" width="2120" height="240" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="kb-load" value="1. Load Knowledge Base:&#xa;fs.readdir(&#xa;  'data/knowledge-base/'&#xa;)&#xa;Read all .md files" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0bec5;strokeColor=#37474f;fontSize=8;shadow=1;" vertex="1" parent="lane-context">
+          <mxGeometry x="620" y="60" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="kb-parse" value="2. Parse Markdown:&#xa;Extract sections:&#xa;• Best practices&#xa;• Coding standards&#xa;• Common patterns&#xa;• Error handling" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#80deea;strokeColor=#006064;fontSize=7;shadow=1;" vertex="1" parent="lane-context">
+          <mxGeometry x="800" y="55" width="140" height="90" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ctx-build" value="3. Build Context:&#xa;messages = [&#xa;  {role: 'system',&#xa;   content: systemPrompt +&#xa;     knowledgeBase},&#xa;  {role: 'user',&#xa;   content: '# Test Script\\n' +&#xa;     rawScript + '\\n\\n' +&#xa;     '# User Query\\n' +&#xa;     prompt}&#xa;]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4dd0e1;strokeColor=#006064;fontSize=6.5;shadow=1;" vertex="1" parent="lane-context">
+          <mxGeometry x="980" y="50" width="180" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="ctx-system-prompt" value="System Prompt by Intent:&#xa;&#xa;QUESTION:&#xa;'Analyze and explain this test&#xa;script. Be concise.'&#xa;&#xa;MODIFICATION:&#xa;'Generate modified script&#xa;with requested changes.&#xa;Return complete code.'" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=7;align=left;shadow=1;" vertex="1" parent="lane-context">
+          <mxGeometry x="1200" y="55" width="180" height="100" as="geometry" />
+        </mxCell>
+        
+        <!-- API Call & Retry Layer -->
+        <mxCell id="lane-api-call" value="Layer 5: AI API Call (Retry with Exponential Backoff)" style="swimlane;startSize=40;fillColor=#fff3e0;strokeColor=#e65100;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1150" width="2120" height="340" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-api" value="Call AI Provider API:&#xa;POST provider.endpoint&#xa;Headers: {&#xa;  Authorization: apiKey,&#xa;  Content-Type: 'json'&#xa;}&#xa;Body: {&#xa;  model, messages,&#xa;  temperature, maxTokens&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffb74d;strokeColor=#e65100;fontSize=7;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="1210" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-timeout" value="Timeout: 30s&#xa;(configurable)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffccbc;strokeColor=#d84315;fontSize=9;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="1230" y="190" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-response-check" value="API&#xa;success?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=10;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="1250" y="250" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-success" value="SUCCESS:&#xa;Parse response&#xa;Extract content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4caf50;strokeColor=#2e7d32;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="1410" y="260" width="110" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-retry-check" value="Retry&#xa;count &lt; 3?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=9;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="1080" y="260" width="90" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-retry" value="RETRY:&#xa;Wait (exponential):&#xa;• Attempt 1: 1s&#xa;• Attempt 2: 2s&#xa;• Attempt 3: 4s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ff9800;strokeColor=#e65100;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="1050" y="150" width="120" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-fallback-check" value="Fallback&#xa;providers&#xa;available?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="900" y="265" width="90" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-try-fallback" value="TRY NEXT PROVIDER:&#xa;Get next active provider&#xa;(priority order)&#xa;Repeat API call" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffab91;strokeColor=#d84315;fontSize=8;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="740" y="265" width="130" height="70" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-all-failed" value="ALL PROVIDERS FAILED:&#xa;Return error to user&#xa;'AI analysis unavailable'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f44336;strokeColor=#c62828;fontSize=8;fontColor=#ffffff;fontStyle=1;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="880" y="150" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="call-circuit-breaker" value="Circuit Breaker:&#xa;5 consecutive failures&#xa;→ Disable provider 5min" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#bcaaa4;strokeColor=#5d4037;fontSize=8;shadow=1;" vertex="1" parent="lane-api-call">
+          <mxGeometry x="725" y="150" width="130" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Response Processing -->
+        <mxCell id="lane-response" value="Layer 6: Response Processing &amp; Usage Tracking" style="swimlane;startSize=40;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="1510" width="2120" height="260" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="resp-parse" value="1. Parse AI Response:&#xa;response.choices[0]&#xa;  .message.content&#xa;&#xa;Extract:&#xa;• Modified code (if any)&#xa;• Explanation&#xa;• Suggestions" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#2e7d32;fontSize=8;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1420" y="60" width="140" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="resp-validate" value="2. Validate Response:&#xa;• Check for code blocks&#xa;• Verify syntax&#xa;• Sanitize output" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a5d6a7;strokeColor=#2e7d32;fontSize=9;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1600" y="70" width="130" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="resp-track-usage" value="3. Track Usage:&#xa;usageTracker.increment({&#xa;  provider,&#xa;  model,&#xa;  promptTokens,&#xa;  completionTokens,&#xa;  totalTokens,&#xa;  requestTime,&#xa;  cost (estimated)&#xa;})" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#81c784;strokeColor=#2e7d32;fontSize=7;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1770" y="60" width="160" height="110" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="resp-http" value="4. HTTP Response:&#xa;200 OK&#xa;{&#xa;  success: true,&#xa;  intent,&#xa;  response,&#xa;  provider,&#xa;  tokensUsed&#xa;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#64b5f6;strokeColor=#1976d2;fontSize=8;fontColor=#ffffff;shadow=1;" vertex="1" parent="lane-response">
+          <mxGeometry x="1960" y="70" width="120" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1820" width="500" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-title" value="LEGEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="1825" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="legend-text" value="9 AI Providers: OpenAI, Claude, Gemini, Groq, Ollama, Mistral, Cohere, LocalAI, Custom | Retry: 3x with exponential backoff (1s, 2s, 4s) | Fallback: Try next provider if primary fails | Circuit Breaker: Disable after 5 consecutive failures&#xa;Colors: Green=Success | Purple=AI Services | Blue=API | Orange=Retry/Events | Red Cylinders=DB | Gray=Files" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=7;" vertex="1" parent="1">
+          <mxGeometry x="100" y="1850" width="460" height="45" as="geometry" />
+        </mxCell>
+        
+        <!-- Metadata -->
+        <mxCell id="metadata-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;opacity=80;" vertex="1" parent="1">
+          <mxGeometry x="1660" y="1820" width="420" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-title" value="METADATA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1770" y="1825" width="200" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata-text" value="Services: globalAIService.js, 9 provider files, knowledgeBaseManager.js, usageTracker.js | Tables: AIProvider, TestFlow, TestFlowVersion (if modified) | Endpoint: POST /api/ai/analyze | Providers: OpenAI GPT-4, Claude 3, Gemini Pro, Groq, Ollama, Mistral, Cohere, LocalAI, Custom | Last Updated: 2025-12-12 | Complexity: Complex (60+ nodes, 6 lanes)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=6.5;" vertex="1" parent="1">
+          <mxGeometry x="1680" y="1850" width="380" height="45" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
