@@ -1,0 +1,89 @@
+---
+description: "MADF Performance & Cost Optimization — Model routing, context management, token budgets, strategic compaction. Always active for cost awareness."
+globs: 
+alwaysApply: true
+---
+
+# Performance & Cost Optimization
+
+## Model Selection Strategy
+
+The CTO Agent assigns models based on task complexity. These are the guidelines:
+
+| Task Type | Recommended Model | Rationale |
+|-----------|------------------|-----------|
+| Architecture decisions, security analysis | Claude Opus (thinking) | Deep reasoning required |
+| Workflow coordination, product strategy | Claude Opus | Strong analytical thinking |
+| Code generation, component building | Claude Sonnet | Pattern-based, well-defined by specs |
+| Test writing, DevOps config | Claude Sonnet | Follows established patterns |
+| Simple fixes, routine debugging | Claude Sonnet / Haiku | Focused, targeted tasks |
+| Subagent/background tasks | Claude Haiku | Cost-efficient for lightweight work |
+
+### Override Rules
+
+- If an agent produces `CONFIDENCE: LOW`, upgrade to a more capable model for the retry
+- If a task involves a novel domain or unfamiliar architecture, upgrade the model
+- If the task is routine and well-defined by existing blueprints, downgrade to save tokens
+- Log model overrides in DECISIONS.md
+
+## Context Window Management
+
+### Warning Signs
+- Responses becoming less coherent or repetitive
+- Agent losing track of file paths or variable names
+- Tasks taking longer than expected
+- Context usage approaching 80%
+
+### What to Do
+- **Avoid** the last 20% of context for complex multi-file work
+- **Compact** at logical phase boundaries (see strategic-compact skill)
+- **Use `/clear`** between completely unrelated tasks
+
+## Strategic Compaction
+
+Compact at logical boundaries, NOT mid-task:
+
+| Transition | Compact? | Why |
+|-----------|----------|-----|
+| Planning → Building (Phase 3 → 4) | **Yes** | Planning context is bulky; artifacts are the distilled output |
+| Between features in Phase 4 | **Yes** | Fresh context for each feature |
+| Mid-implementation | **No** | Losing variable names, file paths, partial state is costly |
+| After debugging | **Yes** | Debug traces pollute context for unrelated work |
+| After a failed approach | **Yes** | Clear dead-end reasoning before trying a new approach |
+
+### What Survives Compaction
+- Cursor rules (.mdc files)
+- TodoWrite task list
+- Files on disk (artifacts, code, PROJECT_STATE.md)
+- Git state (commits, branches)
+
+### What Is Lost
+- Intermediate reasoning and analysis
+- File contents previously read (must re-read)
+- Multi-step conversation context
+- Tool call history
+
+**Reference**: Load `skills/strategic-compact/SKILL.md` for the full decision guide.
+
+## Extended Thinking
+
+For complex tasks requiring deep reasoning:
+- Extended thinking reserves up to 31,999 tokens for internal reasoning
+- Budget cap: set `MAX_THINKING_TOKENS` environment variable (recommended: 10,000 for cost savings)
+- Use for: architecture decisions, security analysis, debugging complex issues
+- Skip for: routine code generation, documentation, simple fixes
+
+## Cost Tracking
+
+- Monitor token usage during expensive sessions
+- The CTO Agent should flag when a session is consuming excessive tokens
+- Long sessions (3+ hours) should compact at phase boundaries
+- Consider splitting large features into separate sessions
+
+## Rules
+
+- ALWAYS be aware of context window pressure in long sessions
+- NEVER compact mid-implementation — finish the current unit of work first
+- ALWAYS suggest compaction at MADF phase transitions
+- The CTO Agent is responsible for model routing decisions
+- Log model routing overrides in DECISIONS.md as ADRs

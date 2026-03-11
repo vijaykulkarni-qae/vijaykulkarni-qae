@@ -30,7 +30,7 @@ What if AI could work the same way a real team does? Not one AI doing everything
 
 That insight led to two frameworks:
 
-- **MADF** (Multi-Agent Development Framework) — 13 specialized AI agents that collaborate like a real development team. A product strategist, an architect, frontend and backend developers, a tester, a security engineer, a DevOps engineer — each with clear responsibilities, shared artifacts, and an alignment protocol that ensures no one starts building until they fully understand what's needed.
+- **MADF** (Multi-Agent Development Framework) — 13 specialized AI agents that collaborate like a real development team. A product strategist, an architect, frontend and backend developers, a tester, a security engineer, a DevOps engineer — each with clear responsibilities, shared artifacts, and an alignment protocol that ensures no one starts building until they fully understand what's needed. v2.0 adds event-driven hooks for automated session management, a skills library (TDD, search-first, verification loops), universal coding rules, and a confidence-scored continuous learning system.
 
 - **TAFF** (Test Automation Framework Factory) — The same multi-agent architecture applied to test framework generation. 16 agents, 10 tool blueprints, 9 shared patterns. Instead of building each test framework from scratch, TAFF encodes expert knowledge into blueprints and uses specialized agents to generate production-ready frameworks for any testing type.
 
@@ -40,9 +40,9 @@ The key difference: MADF and TAFF don't just use AI — they organize AI the way
 
 ## Projects
 
-### [Multi-Agent Development Framework (MADF)](./multi-agent-development-framework/)
+### [Multi-Agent Development Framework (MADF) v2.0](./multi-agent-development-framework/)
 
-A framework for building software with AI — 13 specialized agents collaborating like a real development team.
+A framework for building software with AI — 13 specialized agents collaborating like a real development team. v2.0 integrates operational automation from [Everything Claude Code](https://github.com/anthropics/anthropic-cookbook) patterns: event-driven hooks, a skills library, universal coding rules, and an enhanced continuous learning system.
 
 | | |
 |---|---|
@@ -50,6 +50,10 @@ A framework for building software with AI — 13 specialized agents collaboratin
 | **Hierarchy** | Human → CTO Agent → Orchestrator → Specialized Agents |
 | **Key Feature** | Alignment protocol — AI asks until it understands, confirms before it acts, stops when confused |
 | **Artifacts** | 12 templates (MVP Plan, System Blueprint, API Contract, Test Plan, Security Review, etc.) |
+| **Hooks** | 7 event-driven automations (session start/stop, file edit checks, shell safety, context compaction) |
+| **Skills** | 8 reusable workflows (TDD, search-first, verification loop, E2E testing, deployment patterns, etc.) |
+| **Rules** | 4 universal standards (coding style, git workflow, development pipeline, performance optimization) |
+| **Learning** | Confidence-scored lessons (0.3–0.9), project/global scoping, instinct promotion at 0.8+ |
 
 ---
 

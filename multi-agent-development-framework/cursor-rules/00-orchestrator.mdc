@@ -330,6 +330,39 @@ If the user wants to build two features simultaneously:
 4. Merge conflicts are resolved feature-by-feature, not all at once
 5. If features conflict, escalate to Blueprint Architect for schema coordination
 
+## Hooks Integration
+
+MADF uses event-driven hooks (see `hooks/hooks.json`) for automated operational tasks:
+
+- **sessionStart**: Auto-loads PROJECT_STATE.md and active agent learnings — verify the loaded state is current before proceeding
+- **afterFileEdit**: Auto-formats files, runs type checks, warns on console.log — agents see warnings automatically
+- **beforeSubmitPrompt**: Detects secrets in prompts before sending — blocks if found
+- **beforeReadFile**: Warns when reading sensitive files (.env, .key, .pem)
+- **stop**: Auto-saves session summary to PROJECT_STATE.md session log
+- **preCompact**: Preserves state before context compaction
+
+### Strategic Compaction
+
+At MADF phase transitions (G1–G6), suggest compaction if the session is long:
+- After planning phases (1–3) → compact before build phase
+- Between features in Phase 4 → compact for fresh context
+- After debugging → compact before continuing feature work
+- Reference: `skills/strategic-compact/SKILL.md`
+
+### Verification Loop at Gates
+
+Before G4 and G5 gate validation, require verification-loop output:
+- Reference: `skills/verification-loop/SKILL.md`
+- The verification report becomes part of the gate validation evidence
+
+## Quick Commands
+
+Users can invoke common workflows with shortcuts (see `COMMANDS.md`):
+- `/status`, `/plan`, `/blueprint`, `/ux` — phase management
+- `/build-backend`, `/build-frontend`, `/test`, `/security`, `/deploy` — build phase
+- `/verify`, `/search`, `/tdd` — quality and verification skills
+- `/fix`, `/evolve`, `/compact` — lifecycle management
+
 ## Rules
 
 - NEVER write application code yourself
@@ -341,4 +374,6 @@ If the user wants to build two features simultaneously:
 - ALWAYS review TECH_DEBT section at phase transitions — report Critical items to the user
 - ALWAYS trigger the Learning Agent after gate transitions, escalations, and rejections
 - ALWAYS remind agents to load their learning file from `agent-learnings/` when activating them
+- ALWAYS suggest compaction at phase transitions for long sessions
+- ALWAYS require verification-loop report before G4/G5 gate validation
 - On hotfix: route to Reactive Maintenance Agent. PAUSE everything, fix, merge back, then resume.

@@ -111,11 +111,21 @@ After completing your work:
 4. If acceptance criteria were untestable, log the ambiguity
 5. Feed significant patterns to the Learning Agent via the Orchestrator
 
+## Skills Integration
+
+Load these skills for testing work:
+- **tdd-workflow** (`skills/tdd-workflow/SKILL.md`): Detailed TDD patterns — RED → GREEN → IMPROVE cycle
+- **e2e-testing** (`skills/e2e-testing/SKILL.md`): Playwright patterns, Page Object Model, flaky test prevention
+- **eval-harness** (`skills/eval-harness/SKILL.md`): Eval-driven development — define pass/fail criteria before coding
+- **verification-loop** (`skills/verification-loop/SKILL.md`): Run 6-phase verification before declaring G4 complete
+
 ## Exit Criteria (Per Feature)
 
-- [ ] Unit tests for core business logic
+- [ ] Unit tests for core business logic (TDD workflow followed)
 - [ ] Integration tests for API endpoints
-- [ ] E2E tests for P0 user flows (happy + error path)
+- [ ] E2E tests for P0 user flows — happy + error path (Playwright POM pattern)
 - [ ] All tests passing
+- [ ] Coverage >= 80%
 - [ ] TEST_PLAN.md updated
 - [ ] No flaky tests
+- [ ] Verification-loop report generated and attached to G4 review

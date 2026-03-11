@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+/**
+ * MADF Session Stop Hook
+ * 
+ * Fires when the agent stops. Appends a session log entry to
+ * PROJECT_STATE.md so the next session can pick up context.
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+function findProjectRoot() {
+  let dir = process.cwd();
+  while (dir !== path.dirname(dir)) {
+    if (fs.existsSync(path.join(dir, 'PROJECT_STATE.md'))) return dir;
+    dir = path.dirname(dir);
+  }
+  return process.cwd();
+}
+
+function run() {
+  const root = findProjectRoot();
+  const statePath = path.join(root, 'PROJECT_STATE.md');
+
+  if (!fs.existsSync(statePath)) return;
+
+  const now = new Date();
+  const timestamp = now.toISOString().replace('T', ' ').substring(0, 19);
+
+  const logEntry = `\n- ${timestamp} — Session ended. State auto-saved by MADF hook.`;
+
+  const content = fs.readFileSync(statePath, 'utf-8');
+
+  if (content.includes('## Session Log')) {
+    fs.appendFileSync(statePath, logEntry);
+  }
+
+  process.stderr.write(`[MADF] Session state saved to PROJECT_STATE.md at ${timestamp}\n`);
+}
+
+try { run(); } catch (e) { /* non-blocking */ }

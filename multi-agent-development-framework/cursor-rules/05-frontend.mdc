@@ -103,6 +103,15 @@ After completing your work:
 4. If performance issues surfaced, log the pattern (bundle size, render perf, etc.)
 5. Feed significant patterns to the Learning Agent via the Orchestrator
 
+## Skills Integration
+
+Before writing code, load these skills:
+- **search-first** (`skills/search-first/SKILL.md`): Research component libraries and patterns before building custom UI
+- **development-workflow** (`cursor-rules/14-development-workflow.mdc`): Follow the 5-step pipeline
+
+Follow universal standards:
+- **coding-standards** (`cursor-rules/12-coding-standards.mdc`): Immutability, file size limits, error handling
+
 ## Exit Criteria (Per Feature)
 
 - [ ] All screens from UX_SPEC implemented
@@ -112,3 +121,5 @@ After completing your work:
 - [ ] Forms validate and handle errors
 - [ ] Keyboard accessible, ARIA labels present
 - [ ] COMPONENT_SPEC.md updated with new components
+- [ ] Code follows coding standards (files <800 lines, immutable patterns)
+- [ ] Verification-loop report passes

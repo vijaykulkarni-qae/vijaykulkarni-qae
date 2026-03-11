@@ -58,8 +58,48 @@ Each entry in a learning file follows this structure:
 - **Root Cause**: Why it happened
 - **Lesson**: What to do differently
 - **Rule Impact**: Does this warrant a rule update? [YES/NO]
+- **Confidence**: 0.3–0.9 (how certain is this lesson? See scoring guide below)
+- **Scope**: project / global (does this apply only to this project or all projects?)
 - **Status**: [CAPTURED / RULE_PROPOSED / RULE_UPDATED / ACKNOWLEDGED]
 ```
+
+### Confidence Scoring
+
+Confidence evolves over time based on evidence:
+
+| Score | Meaning | Behavior |
+|-------|---------|----------|
+| 0.3 | Tentative — first occurrence | Noted but not enforced |
+| 0.5 | Moderate — seen twice | Applied when relevant |
+| 0.7 | Strong — recurring pattern | Auto-applied, rule proposal triggered |
+| 0.9 | Near-certain — systemic pattern | Core behavior, should be a permanent rule |
+
+**Confidence increases** when:
+- Same pattern observed again (same root cause type)
+- Pattern seen across multiple features or phases
+- User doesn't correct the learned behavior
+
+**Confidence decreases** when:
+- User explicitly overrides the learned behavior
+- Pattern not observed for extended periods
+- Contradicting evidence appears
+
+### Scope Decision
+
+| Lesson Type | Scope | Examples |
+|------------|-------|---------|
+| Tech stack specific | **project** | "Always use Prisma for this project's DB" |
+| Framework conventions | **project** | "React hooks over class components here" |
+| Security best practices | **global** | "Always validate API input" |
+| Process improvements | **global** | "Run verification-loop before gates" |
+| General engineering | **global** | "Write tests before implementation" |
+
+### Instinct Promotion (Project → Global)
+
+When a project-scoped lesson reaches confidence >= 0.7 AND the same pattern is seen in 2+ projects:
+1. Promote to global scope
+2. Log promotion in LESSONS_LEARNED.md
+3. Consider proposing as a permanent rule update
 
 ## Central LESSONS_LEARNED.md
 

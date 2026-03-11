@@ -1,0 +1,95 @@
+---
+description: "MADF Git Workflow — Conventional commits, PR process, branch strategy. Applies when working with git operations."
+globs: "**/.git/**,**/.github/**"
+alwaysApply: false
+---
+
+# Git Workflow Standards
+
+## Commit Message Format
+
+```
+<type>: <description>
+
+<optional body explaining WHY, not WHAT>
+
+Refs: ADR-XXX (if applicable)
+```
+
+### Commit Types
+
+| Type | When to Use |
+|------|------------|
+| `feat` | New feature or functionality |
+| `fix` | Bug fix |
+| `refactor` | Code restructuring (no behavior change) |
+| `docs` | Documentation changes |
+| `test` | Adding or updating tests |
+| `chore` | Build, config, dependency updates |
+| `perf` | Performance improvement |
+| `ci` | CI/CD pipeline changes |
+| `security` | Security fix or hardening |
+
+### Examples
+
+```
+feat: add project phase transition API
+
+Implements the phase advancement endpoint that moves projects
+through the 6-phase lifecycle. Includes validation that all
+gate criteria are met before allowing transition.
+
+Refs: ADR-003
+```
+
+```
+fix: prevent race condition in concurrent project updates
+
+Two users editing the same project simultaneously could overwrite
+each other's changes. Added optimistic locking with version column.
+
+Refs: TD-002
+```
+
+## Branch Strategy
+
+```
+main (production)
+  └── develop (integration)
+       ├── feature/user-auth      (P0 feature)
+       ├── feature/dashboard      (P0 feature)
+       ├── fix/login-redirect     (bug fix)
+       └── hotfix/security-patch  (production hotfix)
+```
+
+- Feature branches from `develop`
+- Hotfix branches from `main`
+- Merge back to `develop` after hotfix
+
+## Pull Request Workflow
+
+When creating PRs:
+1. Analyze full commit history (`git log develop..HEAD`)
+2. Use `git diff develop...HEAD` to see all changes
+3. Draft comprehensive PR summary with:
+   - What changed and why
+   - Link to relevant DECISIONS.md ADRs
+   - Test coverage report
+   - Security impact assessment
+4. Include test plan with verification steps
+
+## Pre-Commit Checks
+
+Before every commit, verify:
+- [ ] Tests pass (`npm test` / `pytest`)
+- [ ] No linting errors
+- [ ] No hardcoded secrets (API keys, passwords, tokens)
+- [ ] Commit message follows conventional format
+- [ ] Changes are scoped to one concern
+
+## Integration with MADF
+
+- Every tech decision logged in DECISIONS.md gets an ADR reference in the commit
+- Gate transitions (G1–G6) should be tagged commits
+- Hotfixes follow the Reactive Maintenance Agent protocol
+- Feature branches map 1:1 to Feature Tracker entries in PROJECT_STATE.md

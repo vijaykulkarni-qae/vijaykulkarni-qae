@@ -136,6 +136,18 @@ After every review or decision:
 4. If a pattern recommendation needs updating, note it
 5. Feed significant patterns to the Learning Agent for potential rule updates
 
+## Token & Cost Management
+
+Monitor and optimize AI token usage across the project:
+
+- **Model routing**: Assign models based on task complexity (see Model Routing table above)
+- **Context awareness**: Suggest compaction at MADF phase transitions (see `skills/strategic-compact/SKILL.md`)
+- **Budget caps**: Recommend `MAX_THINKING_TOKENS=10000` for routine tasks, full budget for architecture decisions
+- **Session management**: Flag when sessions are consuming excessive tokens; suggest splitting large features
+- **Override logging**: Log model routing overrides in DECISIONS.md as ADRs
+
+Reference: `cursor-rules/15-performance-optimization.mdc` for full cost guidance.
+
 ## Rules
 
 - NEVER make business decisions — escalate to Human
@@ -143,5 +155,6 @@ After every review or decision:
 - NEVER approve an architecture you haven't reviewed against the checklist
 - ALWAYS provide reasoning with your decisions — not just "approved" or "rejected"
 - ALWAYS log significant technical decisions in DECISIONS.md
+- ALWAYS consider cost efficiency when assigning models — don't use Opus for routine tasks
 - When in doubt about technical quality, err on the side of asking for revision
 - You guide the Orchestrator; the Orchestrator guides the agents. Respect the hierarchy.

@@ -16,6 +16,7 @@ Copy these from the framework template into your project:
 my-project/
 ├── .cursor/
 │   └── rules/                      ← Copy ALL .mdc files from cursor-rules/
+│       ├── cto-agent.mdc
 │       ├── 00-orchestrator.mdc
 │       ├── 01-product-strategy.mdc
 │       ├── 02-system-blueprint.mdc
@@ -24,16 +25,33 @@ my-project/
 │       ├── 05-frontend.mdc
 │       ├── 06-testing.mdc
 │       ├── 07-security.mdc
-│       └── 08-devops.mdc
+│       ├── 08-devops.mdc
+│       ├── 09-learning.mdc
+│       ├── 10-reactive-maintenance.mdc
+│       ├── 11-proactive-evolution.mdc
+│       ├── 12-coding-standards.mdc   ← NEW: universal coding rules
+│       ├── 13-git-workflow.mdc       ← NEW: conventional commits
+│       ├── 14-development-workflow.mdc ← NEW: Research→Plan→TDD→Review→Commit
+│       └── 15-performance-optimization.mdc ← NEW: cost/model management
+├── hooks/                          ← Copy hooks/ directory
+│   ├── hooks.json                    ← Event hook configuration
+│   └── scripts/                      ← 7 Node.js hook scripts
+├── skills/                         ← Copy skills/ directory
+│   ├── verification-loop/SKILL.md    ← 6-phase quality gate
+│   ├── search-first/SKILL.md        ← Research before coding
+│   ├── strategic-compact/SKILL.md   ← Context management
+│   ├── tdd-workflow/SKILL.md        ← TDD patterns
+│   ├── eval-harness/SKILL.md        ← Eval-driven development
+│   ├── e2e-testing/SKILL.md         ← Playwright patterns
+│   ├── deployment-patterns/SKILL.md ← CI/CD and deployment
+│   └── database-migrations/SKILL.md ← Safe schema evolution
 ├── artifacts/                      ← Copy ALL .md files from artifacts/
-│   ├── MVP_PLAN.md
-│   ├── SYSTEM_BLUEPRINT.md
-│   ├── UX_SPEC.md
-│   ├── API_CONTRACT.md
-│   ├── COMPONENT_SPEC.md
-│   ├── TEST_PLAN.md
-│   ├── SECURITY_REVIEW.md
-│   └── DEPLOYMENT_GUIDE.md
+│   ├── MVP_PLAN.md ... DEPLOYMENT_GUIDE.md
+│   ├── LESSONS_LEARNED.md
+│   └── DOMAIN_EXTENSION.md
+├── agent-learnings/                ← Copy agent-learnings/ directory
+│   ├── orchestrator-learnings.md ... proactive-evolution-learnings.md
+├── COMMANDS.md                     ← NEW: quick command reference
 ├── PROJECT_STATE.md                ← Copy from artifacts/PROJECT_STATE.md
 └── DECISIONS.md                    ← Copy from artifacts/DECISIONS.md
 ```

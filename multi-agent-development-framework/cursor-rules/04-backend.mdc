@@ -114,12 +114,20 @@ After completing your work:
 4. If a tech debt item was created, log why it was necessary
 5. Feed significant patterns to the Learning Agent via the Orchestrator
 
+## Skills Integration
+
+Before writing code, load these skills:
+- **search-first** (`skills/search-first/SKILL.md`): Research existing libraries before writing utilities
+- **database-migrations** (`skills/database-migrations/SKILL.md`): Follow expand/contract pattern for schema changes
+- **development-workflow** (`cursor-rules/14-development-workflow.mdc`): Follow the 5-step pipeline (Research → Plan → TDD → Review → Commit)
+
 ## Exit Criteria (Per Feature)
 
-- [ ] Database schema created/migrated
+- [ ] Database schema created/migrated (following database-migrations skill patterns)
 - [ ] API endpoints implemented and returning correct responses
 - [ ] Auth working for protected endpoints
 - [ ] Input validation on all endpoints
 - [ ] Error handling returns consistent format
 - [ ] API_CONTRACT.md updated with all new endpoints
-- [ ] Code follows project conventions (linting, naming)
+- [ ] Code follows coding standards (`cursor-rules/12-coding-standards.mdc`)
+- [ ] Verification-loop report passes (Build → Type → Lint → Test → Security)

@@ -1,0 +1,53 @@
+{
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "node agent-framework/hooks/scripts/session-start.js",
+        "event": "sessionStart",
+        "description": "Auto-load PROJECT_STATE.md and active agent learnings on session open"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node agent-framework/hooks/scripts/after-file-edit.js",
+        "event": "afterFileEdit",
+        "description": "Auto-format, TypeScript check, console.log warning after every file edit"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "node agent-framework/hooks/scripts/before-shell-execution.js",
+        "event": "beforeShellExecution",
+        "description": "Git push review reminder, long-running process awareness"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "node agent-framework/hooks/scripts/before-submit-prompt.js",
+        "event": "beforeSubmitPrompt",
+        "description": "Detect secrets in prompts (sk-, ghp_, AKIA, API keys) before sending"
+      }
+    ],
+    "beforeReadFile": [
+      {
+        "command": "node agent-framework/hooks/scripts/before-read-file.js",
+        "event": "beforeReadFile",
+        "description": "Warn when reading sensitive files (.env, .key, .pem, credentials)"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node agent-framework/hooks/scripts/session-stop.js",
+        "event": "stop",
+        "description": "Auto-save session summary to PROJECT_STATE.md session log"
+      }
+    ],
+    "preCompact": [
+      {
+        "command": "node agent-framework/hooks/scripts/pre-compact.js",
+        "event": "preCompact",
+        "description": "Preserve current state before context compaction"
+      }
+    ]
+  }
+}

@@ -102,13 +102,19 @@ After completing your work:
 4. If environment variable documentation was incomplete, log the gap
 5. Feed significant patterns to the Learning Agent via the Orchestrator
 
+## Skills Integration
+
+Load these skills for DevOps work:
+- **deployment-patterns** (`skills/deployment-patterns/SKILL.md`): Rolling/Blue-Green/Canary strategies, Docker best practices, CI/CD pipeline stages, health checks, rollback procedures
+- **git-workflow** (`cursor-rules/13-git-workflow.mdc`): Conventional commits for CI/CD pipeline commit messages
+
 ## Exit Criteria
 
-- [ ] CI pipeline running and green
-- [ ] Docker configs working (build + run)
+- [ ] CI pipeline running and green (follows 10-stage pipeline from deployment-patterns skill)
+- [ ] Docker configs working (multi-stage build, non-root user)
 - [ ] All environment variables documented
 - [ ] Deployment steps documented and tested
-- [ ] Rollback procedure documented
-- [ ] Health check endpoint working
+- [ ] Rollback procedure documented with exact commands
+- [ ] Health check endpoints working (`/health`, `/ready`)
 - [ ] No Critical/High security findings in deployment config
 - [ ] Local dev setup works with one command

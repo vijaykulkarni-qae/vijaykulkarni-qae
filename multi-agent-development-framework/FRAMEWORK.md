@@ -980,4 +980,133 @@ If the project involves any of these, create a domain extension during Phase 2 (
 
 ---
 
-**Remember**: Artifacts are your memory. Gates are your quality. The Orchestrator is your coordinator. Trust the process.
+---
+
+## Infrastructure Layer (ECC Integration)
+
+MADF v2.0 integrates operational infrastructure inspired by the Everything Claude Code (ECC) project, adding an automation layer beneath the methodology.
+
+### Event Hooks
+
+Automated behaviors that fire on IDE events, eliminating manual operational tasks:
+
+| Hook Event | What It Does | Script |
+|-----------|-------------|--------|
+| `sessionStart` | Auto-loads PROJECT_STATE.md and active agent learnings | `hooks/scripts/session-start.js` |
+| `afterFileEdit` | Auto-format, type check, console.log warning | `hooks/scripts/after-file-edit.js` |
+| `beforeShellExecution` | Git push review reminder, dev server detection | `hooks/scripts/before-shell-execution.js` |
+| `beforeSubmitPrompt` | Detects secrets (API keys, tokens) in prompts | `hooks/scripts/before-submit-prompt.js` |
+| `beforeReadFile` | Warns when reading sensitive files (.env, .key, .pem) | `hooks/scripts/before-read-file.js` |
+| `stop` | Auto-saves session summary to PROJECT_STATE.md | `hooks/scripts/session-stop.js` |
+| `preCompact` | Preserves state before context compaction | `hooks/scripts/pre-compact.js` |
+
+Configuration: `hooks/hooks.json`
+
+### Skills Library
+
+Reusable workflow skills that agents can load on demand:
+
+| Skill | Purpose | Used By |
+|-------|---------|---------|
+| `verification-loop` | 6-phase quality check: Build→Type→Lint→Test→Security→Diff | Testing Agent, Orchestrator at G4/G5 |
+| `search-first` | Research existing solutions before writing code | Blueprint Architect, Backend, Frontend |
+| `strategic-compact` | When and how to compact context at phase boundaries | Orchestrator, all long sessions |
+| `tdd-workflow` | TDD patterns: RED→GREEN→IMPROVE with code examples | Testing Agent, Backend, Frontend |
+| `eval-harness` | Eval-driven development with pass@k metrics | Testing Agent, G4 gates |
+| `e2e-testing` | Playwright Page Object Model, CI/CD integration | Testing Agent for E2E work |
+| `deployment-patterns` | Rolling/Blue-Green/Canary, Docker, CI/CD, rollbacks | DevOps Agent in Phase 5 |
+| `database-migrations` | Forward-only, expand/contract, zero-downtime schema changes | Backend Agent, Proactive Evolution |
+
+### Universal Coding Rules
+
+Always-active rules that apply to all coding agents:
+
+| Rule | File | Applies To |
+|------|------|-----------|
+| Coding Standards | `12-coding-standards.mdc` | Immutability, file org, error handling, input validation |
+| Git Workflow | `13-git-workflow.mdc` | Conventional commits, PR process, branch strategy |
+| Development Workflow | `14-development-workflow.mdc` | Research→Plan→TDD→Review→Commit pipeline |
+| Performance Optimization | `15-performance-optimization.mdc` | Model routing, context management, cost tracking |
+
+### Quick Commands
+
+See `COMMANDS.md` for a complete reference. Key commands:
+
+| Command | What It Does |
+|---------|-------------|
+| `/verify` | Run verification-loop (Build→Type→Lint→Test→Security→Diff) |
+| `/search` | Research existing solutions before coding |
+| `/tdd` | Follow TDD workflow |
+| `/compact` | Strategic context compaction |
+| `/status` | Orchestrator reports current state |
+| `/fix` | Activate Reactive Maintenance Agent |
+| `/evolve` | Activate Proactive Evolution Agent |
+
+### Enhanced Learning System
+
+The Learning Agent (09) now uses confidence-scored lessons with project/global scoping:
+
+- **Confidence**: 0.3 (tentative) → 0.9 (near-certain), increases with recurring evidence
+- **Scope**: `project` (applies to current project only) or `global` (applies everywhere)
+- **Promotion**: Project lessons at confidence >= 0.7, seen in 2+ projects, auto-promote to global
+- **Instinct model**: Lessons can evolve into permanent rule updates through CTO approval
+
+---
+
+## File Structure Reference (Complete)
+
+```
+your-project/
+├── .cursor/
+│   └── rules/
+│       ├── cto-agent.mdc              ← Always active: technical authority + cost management
+│       ├── 00-orchestrator.mdc        ← Always active: manages state + hooks awareness
+│       ├── 01-product-strategy.mdc    ← Planning: MVP definition
+│       ├── 02-system-blueprint.mdc    ← Planning: Architecture
+│       ├── 03-ux-designer.mdc         ← Planning: Interface design
+│       ├── 04-backend.mdc             ← Building: Server-side + search-first + migrations
+│       ├── 05-frontend.mdc            ← Building: Client-side + coding standards
+│       ├── 06-testing.mdc             ← Building: TDD + E2E + eval-harness + verification
+│       ├── 07-security.mdc            ← Building: Security audit
+│       ├── 08-devops.mdc              ← Building: Deployment patterns + git workflow
+│       ├── 09-learning.mdc            ← Lifecycle: Confidence-scored learning
+│       ├── 10-reactive-maintenance.mdc ← Lifecycle: Bug fixes, incidents
+│       ├── 11-proactive-evolution.mdc ← Lifecycle: Upgrades, refactoring
+│       ├── 12-coding-standards.mdc    ← Universal: Immutability, file org, error handling
+│       ├── 13-git-workflow.mdc        ← Universal: Conventional commits, PR process
+│       ├── 14-development-workflow.mdc ← Universal: Research→Plan→TDD→Review→Commit
+│       └── 15-performance-optimization.mdc ← Universal: Model routing, cost, compaction
+├── hooks/
+│   ├── hooks.json                     ← Event hook configuration
+│   └── scripts/
+│       ├── session-start.js           ← Auto-load state on session open
+│       ├── after-file-edit.js         ← Auto-format + typecheck + warnings
+│       ├── before-shell-execution.js  ← Git push review + dev server detection
+│       ├── before-submit-prompt.js    ← Secret detection in prompts
+│       ├── before-read-file.js        ← Sensitive file warning
+│       ├── session-stop.js            ← Auto-save state on session end
+│       └── pre-compact.js             ← State preservation before compaction
+├── skills/
+│   ├── verification-loop/SKILL.md     ← 6-phase quality verification
+│   ├── search-first/SKILL.md          ← Research before coding
+│   ├── strategic-compact/SKILL.md     ← Context management
+│   ├── tdd-workflow/SKILL.md          ← TDD patterns and examples
+│   ├── eval-harness/SKILL.md          ← Eval-driven development
+│   ├── e2e-testing/SKILL.md           ← Playwright POM patterns
+│   ├── deployment-patterns/SKILL.md   ← Deployment strategies
+│   └── database-migrations/SKILL.md   ← Safe schema evolution
+├── COMMANDS.md                        ← Quick command reference
+├── PROJECT_STATE.md                   ← Current phase, progress, blockers
+├── DECISIONS.md                       ← Architecture Decision Records
+├── artifacts/
+│   ├── MVP_PLAN.md ... DEPLOYMENT_GUIDE.md
+│   ├── LESSONS_LEARNED.md             ← Cross-agent patterns
+│   └── DOMAIN_EXTENSION.md            ← Domain-specific additions
+├── agent-learnings/                   ← Per-agent learning files (confidence-scored)
+│   ├── orchestrator-learnings.md ... proactive-evolution-learnings.md
+└── src/                               ← Your actual application code
+```
+
+---
+
+**Remember**: Artifacts are your memory. Gates are your quality. Hooks are your safety net. Skills are your playbook. The Orchestrator is your coordinator. Trust the process.

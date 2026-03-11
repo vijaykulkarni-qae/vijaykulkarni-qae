@@ -1,0 +1,71 @@
+---
+description: "MADF Universal Coding Standards — Immutability, file organization, error handling, input validation. Applies to all coding agents (Backend, Frontend, Testing, DevOps)."
+globs: "**/*.{js,ts,tsx,jsx,py,go,java,cs,rb,rs}"
+alwaysApply: true
+---
+
+# Universal Coding Standards
+
+These standards apply to ALL coding agents (Backend, Frontend, Testing, DevOps) across ALL phases.
+
+## Immutability (Critical)
+
+ALWAYS create new objects. NEVER mutate existing ones:
+
+```
+WRONG:  modify(original, field, value)  → changes original in-place
+CORRECT: update(original, field, value) → returns new copy with change
+```
+
+Immutable data prevents hidden side effects, makes debugging easier, and enables safe concurrency.
+
+## File Organization
+
+MANY SMALL FILES > FEW LARGE FILES:
+- High cohesion, low coupling
+- 200–400 lines typical, 800 max
+- Extract utilities from large modules
+- Organize by feature/domain, not by type
+
+## Error Handling
+
+ALWAYS handle errors comprehensively:
+- Handle errors explicitly at every level
+- Provide user-friendly messages in UI-facing code
+- Log detailed context on the server side
+- Never silently swallow errors
+- Use typed/structured error objects over generic strings
+
+## Input Validation
+
+ALWAYS validate at system boundaries:
+- Validate all user input before processing
+- Use schema-based validation where available (Zod, Pydantic, Joi)
+- Fail fast with clear error messages
+- Never trust external data (API responses, user input, file content)
+
+## Code Quality Checklist
+
+Before marking any coding work complete:
+- [ ] Code is readable and well-named
+- [ ] Functions are small (<50 lines)
+- [ ] Files are focused (<800 lines)
+- [ ] No deep nesting (>4 levels)
+- [ ] Proper error handling at every level
+- [ ] No hardcoded values (use constants or config)
+- [ ] No mutation (immutable patterns used)
+- [ ] No dead code or unused imports
+
+## Naming Conventions
+
+- Functions: verb + noun (`getUserById`, `validateInput`, `calculateTotal`)
+- Booleans: prefix with `is`, `has`, `should`, `can` (`isActive`, `hasPermission`)
+- Constants: UPPER_SNAKE_CASE for true constants
+- Files: match the primary export name
+
+## Rules
+
+- EVERY coding agent must follow these standards
+- Violations found during code review are MEDIUM severity minimum
+- The Testing Agent should verify these in code review checks
+- The Learning Agent should log recurring violations as lessons
