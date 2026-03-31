@@ -2,6 +2,8 @@
 
 > A full-stack AI-powered test management platform — record, execute, analyze, and schedule web application tests with AI-assisted editing and real-time monitoring.
 
+> **Quick overview?** Download the [Autonomous_QA_Platform.pptx](./Autonomous_QA_Platform.pptx) presentation deck (8 slides).
+
 ---
 
 ## What This Is

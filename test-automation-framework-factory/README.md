@@ -2,6 +2,8 @@
 
 > A meta-framework that generates production-ready test automation frameworks using AI agents. Tell it what you need — it builds the entire framework.
 
+> **Quick overview?** Download the [TAFF_Framework.pptx](./TAFF_Framework.pptx) presentation deck (7 slides).
+
 ---
 
 ## What This Is

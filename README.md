@@ -54,6 +54,7 @@ A framework for building software with AI — 13 specialized agents collaboratin
 | **Skills** | 8 reusable workflows (TDD, search-first, verification loop, E2E testing, deployment patterns, etc.) |
 | **Rules** | 4 universal standards (coding style, git workflow, development pipeline, performance optimization) |
 | **Learning** | Confidence-scored lessons (0.3–0.9), project/global scoping, instinct promotion at 0.8+ |
+| **Presentation** | [MADF_Framework.pptx](./multi-agent-development-framework/MADF_Framework.pptx) — 7-slide overview deck |
 
 ---
 
@@ -67,6 +68,7 @@ A meta-framework that generates production-ready test automation frameworks usin
 | **Blueprints** | 10 (Playwright, Cypress, Selenium, SuperTest, pytest, k6, Locust, OWASP ZAP, axe-core, Manual) |
 | **Shared Patterns** | 9 (Config, Reporting, CI/CD, Test Data, Parallel Execution, Logging, Docker, Retry, Auth) |
 | **Decision Matrices** | 4 (UI tool, API tool, Performance tool, CI platform selection) |
+| **Presentation** | [TAFF_Framework.pptx](./test-automation-framework-factory/TAFF_Framework.pptx) — 7-slide overview deck |
 
 ---
 
@@ -81,6 +83,7 @@ Full-stack AI-powered test management platform — record, execute, analyze, and
 | **AI** | 9 providers (Claude, OpenAI, Gemini, Groq, Ollama, etc.) with circuit breaker + failover |
 | **Stack** | React 18 + TypeScript, Node.js + Express v5, PostgreSQL 16, Docker, AWS |
 | **Features** | Playwright recording, AI script editing, real-time WebSocket monitoring, cron scheduling, Allure reports |
+| **Presentation** | [Autonomous_QA_Platform.pptx](./autonomous-qa-platform/Autonomous_QA_Platform.pptx) — 8-slide overview deck |
 
 ---
 
@@ -94,6 +97,7 @@ AI-powered QA methodology — describe a module in plain English, get a complete
 | **Output** | 7-sheet Excel workbook with 28 regression categories, formula-driven dashboard |
 | **Pipeline** | Voice recordings (NotebookLM) → Knowledge base → AI processing → Structured test plan |
 | **Results** | 284+ test scenarios, 65+ security vectors, CRITICAL vulnerability caught before production |
+| **Presentation** | [AI_Test_Plan_Generator.pptx](./ai-test-case-generator/AI_Test_Plan_Generator.pptx) — 7-slide overview deck |
 
 ---
 

@@ -2,6 +2,8 @@
 
 > A reusable AI-powered QA methodology — describe a module in plain English, get a complete test plan with 28 regression categories, PR impact analysis, and security assessment. No test case is written manually.
 
+> **Quick overview?** Download the [AI_Test_Plan_Generator.pptx](./AI_Test_Plan_Generator.pptx) presentation deck (7 slides).
+
 ---
 
 ## What This Solves

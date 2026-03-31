@@ -4,6 +4,8 @@
 
 A structured, artifact-driven, self-improving framework for building software with AI in Cursor IDE. **13 specialized agents** collaborate like a real development team — 3 for planning, 5 for building, 3 for lifecycle management, 1 orchestrator, 1 CTO.
 
+> **Quick overview?** Download the [MADF_Framework.pptx](./MADF_Framework.pptx) presentation deck (7 slides).
+
 MADF v2.0 integrates an **infrastructure automation layer** (inspired by Everything Claude Code) with **event hooks**, **reusable skills**, **universal coding rules**, and **confidence-scored learning** — so agents don't just follow a process, they're backed by automated quality gates and operational safety nets.
 
 The AI will **never guess**. It asks until it fully understands, then says "We're aligned. I'll proceed." Only then does work begin.
