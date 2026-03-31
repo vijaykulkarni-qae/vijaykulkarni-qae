@@ -1,12 +1,12 @@
-# Multi-Agent Development Framework (MADF) v2.0
+# Multi-Agent Development Framework (MADF) v2.1
 
 ## What Is This?
 
-A structured, artifact-driven, self-improving framework for building software with AI in Cursor IDE. **13 specialized agents** collaborate like a real development team — 3 for planning, 5 for building, 3 for lifecycle management, 1 orchestrator, 1 CTO.
+A structured, artifact-driven, self-improving framework for building software with AI in Cursor IDE. **13 specialized agents** collaborate like a real development team — 3 for planning, 5 for building, 3 for lifecycle management, 1 orchestrator, 1 CTO. Backed by **15 reusable workflow skills** covering the full sprint: think, plan, build, review, test, ship, monitor, reflect.
 
-> **Quick overview?** Download the [MADF_Framework.pptx](./MADF_Framework.pptx) presentation deck (7 slides).
+> **Quick overview?** Download the [MADF_Framework.pptx](./MADF_Framework.pptx) presentation deck (8 slides).
 
-MADF v2.0 integrates an **infrastructure automation layer** (inspired by Everything Claude Code) with **event hooks**, **reusable skills**, **universal coding rules**, and **confidence-scored learning** — so agents don't just follow a process, they're backed by automated quality gates and operational safety nets.
+MADF v2.1 adds **7 new workflow skills** — browser-based visual QA, STRIDE threat modeling with confidence gates, design review with AI slop detection, post-deploy canary monitoring, metrics-driven sprint retros, automatic documentation sync, and express planning. Built on the v2.0 foundation of event hooks, universal coding rules, and confidence-scored learning. Philosophy additions: **"Boil the Lake"** (do the complete thing when AI makes completeness nearly free) and **"Search Before Building"** (check what exists before designing from scratch).
 
 The AI will **never guess**. It asks until it fully understands, then says "We're aligned. I'll proceed." Only then does work begin.
 
