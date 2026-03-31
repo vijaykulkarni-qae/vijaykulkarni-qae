@@ -31,6 +31,18 @@
 
 Spend **90% of time planning** and **10% coding**. This isn't just a ratio — it's a survival strategy. Every hour of planning saves 10 hours of debugging. Every decision documented now prevents 5 decisions re-debated later.
 
+### Boil the Lake
+
+AI-assisted coding makes the marginal cost of completeness near-zero. When the complete implementation costs minutes more than the shortcut — **do the complete thing. Every time.**
+
+- A "lake" is boilable — 100% test coverage for a module, all edge cases, all error paths. An "ocean" is not — rewriting the entire system. Boil lakes. Flag oceans as out of scope.
+- "Choose the 90% shortcut" is legacy thinking from when human engineering time was the bottleneck. With AI, the remaining 10% costs seconds.
+- Tests, error handling, edge cases, documentation — these are the cheapest lakes to boil.
+
+### Search Before Building
+
+The first instinct should be "has someone already solved this?" not "let me design it from scratch." Before building anything involving unfamiliar patterns — search first. The cost of checking is near-zero. The cost of not checking is reinventing something worse.
+
 ### Core Principles
 
 | # | Principle | Why It Matters for AI Agents |
@@ -42,6 +54,8 @@ Spend **90% of time planning** and **10% coding**. This isn't just a ratio — i
 | 5 | **Incremental delivery** | Build feature-by-feature, not everything at once. Each increment is plannable, buildable, testable. |
 | 6 | **Decisions are permanent until revisited** | Once a choice is recorded in DECISIONS.md, no agent re-debates it without explicit escalation. |
 | 7 | **Context bundling** | Each agent receives ONLY what it needs — not a dump of everything. Focused context = better output. |
+| 8 | **Boil the lake** | When AI makes completeness nearly free, do the complete thing. 100% coverage, all edge cases, all error paths. |
+| 9 | **Search before building** | Check if a solution already exists before designing from scratch. The cost of checking is near-zero. |
 
 ---
 
@@ -1016,6 +1030,13 @@ Reusable workflow skills that agents can load on demand:
 | `e2e-testing` | Playwright Page Object Model, CI/CD integration | Testing Agent for E2E work |
 | `deployment-patterns` | Rolling/Blue-Green/Canary, Docker, CI/CD, rollbacks | DevOps Agent in Phase 5 |
 | `database-migrations` | Forward-only, expand/contract, zero-downtime schema changes | Backend Agent, Proactive Evolution |
+| `visual-qa` | Browser-based QA: open real browser, test flows, find visual bugs, generate regression tests | Testing Agent at G4/G5 |
+| `stride-threat-model` | STRIDE threat modeling + OWASP audit with confidence gates and exploit scenarios | Security Agent at G4/G5 |
+| `design-review` | Score design across 7 dimensions (0-10), detect AI slop, auto-fix CSS issues | UX Designer at Phase 3, Frontend at G4 |
+| `canary-monitor` | Post-deploy monitoring: health checks, performance baselines, error detection, rollback decisions | DevOps Agent at G6 |
+| `sprint-retro` | Metrics-driven retrospective: git stats, test health, gate performance, hotspot analysis | Learning Agent, weekly/sprint-end |
+| `doc-sync` | Auto-sync all documentation to match shipped code, detect stale docs and orphaned references | DevOps Agent at G6, any post-build |
+| `autoplan` | Express planning pipeline: chains Phases 1-3 automatically, surfaces only taste decisions | Orchestrator for small features |
 
 ### Universal Coding Rules
 
@@ -1094,7 +1115,14 @@ your-project/
 │   ├── eval-harness/SKILL.md          ← Eval-driven development
 │   ├── e2e-testing/SKILL.md           ← Playwright POM patterns
 │   ├── deployment-patterns/SKILL.md   ← Deployment strategies
-│   └── database-migrations/SKILL.md   ← Safe schema evolution
+│   ├── database-migrations/SKILL.md   ← Safe schema evolution
+│   ├── visual-qa/SKILL.md            ← Browser-based QA testing (gstack-inspired)
+│   ├── stride-threat-model/SKILL.md  ← STRIDE + OWASP with exploit scenarios (gstack-inspired)
+│   ├── design-review/SKILL.md        ← 7-dimension design audit + AI slop detection (gstack-inspired)
+│   ├── canary-monitor/SKILL.md       ← Post-deploy health monitoring (gstack-inspired)
+│   ├── sprint-retro/SKILL.md         ← Metrics-driven retrospective (gstack-inspired)
+│   ├── doc-sync/SKILL.md             ← Auto-sync docs to shipped code (gstack-inspired)
+│   └── autoplan/SKILL.md             ← Express planning pipeline (gstack-inspired)
 ├── COMMANDS.md                        ← Quick command reference
 ├── PROJECT_STATE.md                   ← Current phase, progress, blockers
 ├── DECISIONS.md                       ← Architecture Decision Records

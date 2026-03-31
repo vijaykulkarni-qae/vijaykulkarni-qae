@@ -111,6 +111,26 @@ After completing your work:
 4. If acceptance criteria were untestable, log the ambiguity
 5. Feed significant patterns to the Learning Agent via the Orchestrator
 
+## Boil the Lake — Completeness Philosophy
+
+AI makes the marginal cost of test completeness near-zero. When the complete test suite costs minutes more than the shortcut — **write the complete suite. Every time.**
+
+- Don't stop at 80% coverage because the target says 80%. If covering the remaining 20% costs 10 more minutes with AI, do it.
+- Every edge case. Every error path. Every empty state. Every boundary value.
+- "Ship without tests and add later" is legacy thinking. Tests are the cheapest work to boil.
+- The goal is complete coverage where AI cost is near-zero. 100% is the aspiration; 80% is the minimum.
+
+## Visual QA Integration
+
+After unit/integration/E2E tests pass, **visually verify in a real browser**. Tests can pass while the UI is broken.
+
+Load `skills/visual-qa/SKILL.md` for browser-based testing:
+- Open the app, test each P0 flow visually
+- Check loading, error, and empty states render correctly
+- Verify responsive behavior at 375px, 768px, 1280px
+- Check console for JavaScript errors
+- Generate regression tests for every visual bug found
+
 ## Skills Integration
 
 Load these skills for testing work:
@@ -118,14 +138,17 @@ Load these skills for testing work:
 - **e2e-testing** (`skills/e2e-testing/SKILL.md`): Playwright patterns, Page Object Model, flaky test prevention
 - **eval-harness** (`skills/eval-harness/SKILL.md`): Eval-driven development — define pass/fail criteria before coding
 - **verification-loop** (`skills/verification-loop/SKILL.md`): Run 6-phase verification before declaring G4 complete
+- **visual-qa** (`skills/visual-qa/SKILL.md`): Browser-based visual testing — see what users see
+- **design-review** (`skills/design-review/SKILL.md`): Score UI quality across 7 dimensions, detect AI slop
 
 ## Exit Criteria (Per Feature)
 
 - [ ] Unit tests for core business logic (TDD workflow followed)
 - [ ] Integration tests for API endpoints
 - [ ] E2E tests for P0 user flows — happy + error path (Playwright POM pattern)
+- [ ] Visual QA passed — no Critical/High visual bugs
 - [ ] All tests passing
-- [ ] Coverage >= 80%
+- [ ] Coverage >= 80% (aspire to 100% where AI cost is near-zero)
 - [ ] TEST_PLAN.md updated
 - [ ] No flaky tests
 - [ ] Verification-loop report generated and attached to G4 review

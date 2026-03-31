@@ -33,6 +33,9 @@ Quick invocation shortcuts for common MADF workflows. Use these phrases to activ
 | `/search` | Research existing solutions before coding | search-first skill |
 | `/tdd` | Follow TDD workflow (RED → GREEN → IMPROVE) | tdd-workflow skill |
 | `/eval` | Define and run eval-driven development checks | eval-harness skill |
+| `/qa` | Visual QA — open real browser, test flows, find bugs, generate regression tests | visual-qa skill |
+| `/cso` | STRIDE threat model + OWASP audit with confidence gates and exploit scenarios | stride-threat-model skill |
+| `/design-review` | Score design across 7 dimensions (0-10), detect AI slop, fix CSS issues | design-review skill |
 
 ## Lifecycle Management
 
@@ -41,6 +44,10 @@ Quick invocation shortcuts for common MADF workflows. Use these phrases to activ
 | `/fix` | Triage and fix a bug (SEV-1 to SEV-4) | Reactive Maintenance (10) |
 | `/evolve` | Planned upgrade, refactor, or new feature | Proactive Evolution (11) |
 | `/compact` | Strategic context compaction at phase boundary | strategic-compact skill |
+| `/canary` | Post-deploy monitoring: health checks, performance, error detection | canary-monitor skill |
+| `/retro` | Sprint retrospective with git metrics, test health, gate performance | sprint-retro skill |
+| `/doc-sync` | Sync all documentation to match shipped code, detect stale docs | doc-sync skill |
+| `/autoplan` | Express planning — chains Phases 1-3, surfaces only taste decisions | autoplan skill |
 
 ## Session Management
 
@@ -74,17 +81,32 @@ The Orchestrator will:
 
 Commands can be chained for common workflows:
 
+**Full feature sprint (Think → Plan → Build → Review → Test → Ship):**
+```
+/autoplan → /build-backend → /build-frontend → /test → /qa → /verify → /cso → /design-review → /deploy → /canary → /doc-sync
+```
+
 **Start a new feature build:**
 ```
-/search → /build-backend → /build-frontend → /test → /verify → /security
+/search → /build-backend → /build-frontend → /test → /qa → /verify → /security
 ```
 
 **Debug and fix a production issue:**
 ```
-/fix → /verify → /learn
+/fix → /verify → /canary → /learn
 ```
 
 **Upgrade a dependency:**
 ```
-/evolve → /verify → /security → /deploy
+/evolve → /verify → /security → /deploy → /canary
+```
+
+**Weekly retrospective:**
+```
+/retro → /doc-sync
+```
+
+**Pre-release quality gate:**
+```
+/verify → /qa → /cso → /design-review → /doc-sync
 ```

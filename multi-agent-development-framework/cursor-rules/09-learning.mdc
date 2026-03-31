@@ -25,6 +25,20 @@ Before any retrospective, read IN THIS ORDER:
 4. **After a hotfix** — What broke? What gap in testing/security allowed it?
 5. **On request** — User or CTO Agent asks for a retrospective
 6. **End of project** — Full retrospective across all phases
+7. **Sprint/weekly retro** — Run the `sprint-retro` skill for metrics-driven analysis
+
+## Sprint Retro Skill Integration
+
+When activated for a sprint/weekly retrospective, load `skills/sprint-retro/SKILL.md` and produce:
+
+1. **Git metrics** — commits, LOC added/removed, files changed, hotspot files, peak coding hours
+2. **Test health** — total tests, pass rate, coverage %, test:code ratio, new tests, flaky tests
+3. **Gate performance** — first-pass rate, retry rate, escalation count
+4. **Hotspot analysis** — files changed most frequently (churn = potential refactor target)
+5. **What worked / What didn't** — data-driven, not opinion-driven
+6. **Action items** — logged as tech debt or rule update proposals
+
+Save output to `artifacts/RETRO_[DATE].md` and append key findings to `LESSONS_LEARNED.md`.
 
 ## Per-Agent Learning Files
 

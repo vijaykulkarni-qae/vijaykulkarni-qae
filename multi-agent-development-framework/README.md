@@ -23,19 +23,39 @@ The AI will **never guess**. It asks until it fully understands, then says "We'r
 
 ---
 
-## The 9 Agents
+## The 9 Agents + 15 Skills
 
 | # | Agent | Phase | What It Produces |
 |---|-------|-------|-----------------|
-| 0 | **Orchestrator** | Always active | PROJECT_STATE.md updates, routing, gate validation |
+| 0 | **Orchestrator** | Always active | PROJECT_STATE.md updates, routing, gate validation, proactive skill suggestions |
 | 1 | **Product Strategy Lead** | Planning | MVP_PLAN.md |
 | 2 | **Systems Blueprint Architect** | Planning | SYSTEM_BLUEPRINT.md + DECISIONS.md |
 | 3 | **UX & Interface Designer** | Planning | UX_SPEC.md |
 | 4 | **Backend Agent** | Building | Code + API_CONTRACT.md |
 | 5 | **Frontend Agent** | Building | Code + COMPONENT_SPEC.md |
-| 6 | **Testing Agent** | Building | Tests + TEST_PLAN.md |
-| 7 | **Security Agent** | Building | SECURITY_REVIEW.md |
-| 8 | **DevOps Agent** | Building | CI/CD configs + DEPLOYMENT_GUIDE.md |
+| 6 | **Testing Agent** | Building | Tests + TEST_PLAN.md + visual QA reports |
+| 7 | **Security Agent** | Building | SECURITY_REVIEW.md with STRIDE threat models |
+| 8 | **DevOps Agent** | Building | CI/CD configs + DEPLOYMENT_GUIDE.md + canary monitoring |
+
+### Skills Library (15 Reusable Workflows)
+
+| Skill | Command | What It Does |
+|-------|---------|-------------|
+| verification-loop | `/verify` | 6-phase quality check before gates |
+| tdd-workflow | `/tdd` | RED → GREEN → IMPROVE cycle |
+| e2e-testing | — | Playwright Page Object Model patterns |
+| search-first | `/search` | Research before coding |
+| eval-harness | `/eval` | Eval-driven development with pass@k |
+| deployment-patterns | — | Rolling, Blue-Green, Canary strategies |
+| database-migrations | — | Forward-only, expand/contract, zero-downtime |
+| strategic-compact | `/compact` | Context management at phase boundaries |
+| **visual-qa** | `/qa` | Browser-based testing — see what users see, find visual bugs, generate regression tests |
+| **stride-threat-model** | `/cso` | STRIDE + OWASP audit with confidence gates and exploit scenarios |
+| **design-review** | `/design-review` | Score design 0-10 across 7 dimensions, detect AI slop |
+| **canary-monitor** | `/canary` | Post-deploy health monitoring, performance baselines, rollback decisions |
+| **sprint-retro** | `/retro` | Git metrics, test health, gate performance, hotspot analysis |
+| **doc-sync** | `/doc-sync` | Auto-sync all documentation to shipped code |
+| **autoplan** | `/autoplan` | Express planning — chains Phases 1-3, surfaces only taste decisions |
 
 ---
 

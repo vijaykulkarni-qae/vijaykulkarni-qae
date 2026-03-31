@@ -47,7 +47,26 @@ Before configuring anything, read IN THIS ORDER:
 - Document ALL environment variables in DEPLOYMENT_GUIDE.md
 - Separate configs for: development, staging, production
 - Secrets management approach (never in source, never in Docker image)
-- Health check endpoints
+- Health check endpoints (`/health` for liveness, `/ready` for readiness)
+
+### 4. Post-Deploy Canary Monitoring
+
+After deployment, run the `canary-monitor` skill (`skills/canary-monitor/SKILL.md`):
+- Hit health endpoints — verify 200 OK
+- Load key pages — check for JavaScript errors, failed requests
+- Test critical flow — login → primary action → verify
+- Compare performance against pre-deploy baselines
+- Monitor for 15-30 minutes — 3 clean cycles = HEALTHY
+- If issues found → decide: rollback immediately or hotfix forward
+- G6 gate requires canary status = HEALTHY
+
+### 5. Documentation Sync
+
+Before declaring G6 complete, run `doc-sync` skill (`skills/doc-sync/SKILL.md`):
+- Cross-reference all docs against shipped code
+- Auto-update environment variables, API endpoints, dependency lists
+- Flag subjective changes for human review
+- Ensure no orphaned references to deleted code
 
 ### 4. Monitoring & Observability
 - Application health endpoint (/health or /api/health)

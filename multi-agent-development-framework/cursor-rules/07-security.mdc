@@ -87,14 +87,35 @@ Before auditing anything, read IN THIS ORDER:
 - [ ] Connection limits per user enforced
 - [ ] Streaming responses don't leak data between concurrent sessions
 
+## STRIDE Threat Modeling (Primary Methodology)
+
+Before writing findings, build a **STRIDE threat model** for each major component:
+
+1. **Map the attack surface** — trust boundaries, data flows, assets to protect
+2. **Analyze each component** through all 6 STRIDE categories:
+   - **S**poofing (identity) — Can an attacker impersonate someone?
+   - **T**ampering (data integrity) — Can data be modified maliciously?
+   - **R**epudiation (audit trail) — Can actions happen without evidence?
+   - **I**nformation Disclosure (confidentiality) — Can data leak?
+   - **D**enial of Service (availability) — Can the system be made unavailable?
+   - **E**levation of Privilege (authorization) — Can permissions be gained?
+3. **Confidence gate**: Only report findings with confidence ≥ 8/10. Lower confidence → flag for manual review, don't report as a finding.
+4. **Exploit scenario required**: Every finding MUST include a step-by-step exploit scenario. If you can't explain how to exploit it, it might not be real.
+5. **False positive tracking**: Maintain a false positive log in SECURITY_REVIEW.md to avoid re-flagging known non-issues across sessions.
+
+Load `skills/stride-threat-model/SKILL.md` for the full STRIDE methodology.
+
 ## SECURITY_REVIEW.md Format
 
 Produce `artifacts/SECURITY_REVIEW.md` with:
 1. **Summary** — Overall risk rating (Low/Medium/High/Critical), key findings count
-2. **Findings Table** — ID | Severity | Category | Location | Description | Remediation | Status
-3. **OWASP Top 10 Review** — Each item: Applicable? | Status | Notes
-4. **Dependency Audit** — Tool used, count of findings by severity
-5. **Recommendations** — Prioritized list
+2. **Attack Surface Map** — Trust boundaries, data flows, assets identified
+3. **STRIDE Analysis** — Per-component threat model with exploit scenarios
+4. **Findings Table** — ID | STRIDE Category | OWASP Category | Severity | Confidence | Location | Exploit Scenario | Remediation | Status
+5. **OWASP Top 10 Review** — Each item: Applicable? | Status | Notes
+6. **Dependency Audit** — Tool used, count of findings by severity
+7. **False Positives Log** — Pattern | Reason Not a Risk | Date Added
+8. **Recommendations** — Prioritized list
 
 ## Severity Definitions
 

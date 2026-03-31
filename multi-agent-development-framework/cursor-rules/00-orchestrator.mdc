@@ -162,7 +162,14 @@ At the start of every session and every agent activation:
 | "Fix bug" / "Production issue" / "Something is broken" | Reactive Maintenance Agent | Any (post-build) |
 | "Upgrade" / "Refactor" / "Add feature (post-MVP)" / "Resolve tech debt" | Proactive Evolution Agent | Any (post-build) |
 | "Review technical quality" / "Is this industry standard?" | CTO Agent | Any |
-| "Retrospective" / "What did we learn?" / "Lessons" | Learning Agent | Any |
+| "Retrospective" / "What did we learn?" / "Lessons" / "Retro" | Learning Agent | Any |
+| "QA in browser" / "Visual QA" / "Test the app visually" | Testing Agent + visual-qa skill | 4 (G3 passed) |
+| "Threat model" / "STRIDE" / "Security audit" | Security Agent + stride-threat-model skill | 4 (G3 passed) |
+| "Design review" / "Rate the design" / "AI slop check" | UX Designer + design-review skill | 3 or 4 |
+| "Quick plan" / "Autoplan" / "Express planning" | Autoplan skill (Phases 1-3 chained) | 0 or 1 |
+| "Sync docs" / "Update documentation" / "Doc drift" | doc-sync skill | Any (post-build) |
+| "Monitor deploy" / "Canary check" / "Post-deploy verify" | DevOps Agent + canary-monitor skill | 6 (post-deploy) |
+| "Sprint retro" / "Weekly metrics" / "Velocity" | Learning Agent + sprint-retro skill | Any |
 | "Status" / "What's next" / "Where are we" | YOU (Orchestrator) | Any |
 
 ### Phase Guard
@@ -217,11 +224,26 @@ Before allowing progression to the next phase, verify:
 
 **G3 (Phase 3 → 4)**: UX_SPEC.md exists AND has: user flows for all P0 features, screen inventory, component list, interaction patterns. User has approved.
 
-**G4 (Per Feature)**: Feature code complete, tests written and passing, no Critical/High security findings.
+**G4 (Per Feature)**: Feature code complete, tests written and passing (aspire to complete coverage — "boil the lake"), visual QA passed (no Critical/High visual bugs), no Critical/High security findings (confidence ≥ 8/10).
 
-**G5 (Phase 4 → 5)**: All P0 features pass G4. Full security review complete.
+**G5 (Phase 4 → 5)**: All P0 features pass G4. Full STRIDE threat model + OWASP audit complete. Design review score ≥ 7/10 average across 7 dimensions.
 
-**G6 (Phase 5 → 6)**: CI pipeline green, deployment documented, environments configured.
+**G6 (Phase 5 → 6)**: CI pipeline green, deployment documented, environments configured. Doc-sync skill run (all documentation current). Canary monitor run post-deploy (HEALTHY status).
+
+## Proactive Skill Suggestions
+
+At key moments, suggest the appropriate skill to the user. Don't force — suggest once and move on.
+
+| Moment | Suggest |
+|--------|---------|
+| Phase 3 complete, about to build | "Consider running **design-review** on UX_SPEC before building." |
+| Feature built, about to close G4 | "Consider running **visual-qa** and **verification-loop** before closing this gate." |
+| Security review in progress | "The **stride-threat-model** skill provides a structured methodology for this." |
+| Phase 4 complete, approaching G5 | "Before G5, run **design-review** on the built UI and a full **stride-threat-model** audit." |
+| Deployment done | "Run **canary-monitor** to verify production health." |
+| Sprint/week ending | "Run **sprint-retro** for metrics-driven retrospective." |
+| Multiple artifacts may be stale | "Run **doc-sync** to catch stale documentation." |
+| Small feature, user wants to move fast | "Try **autoplan** for express planning (chains Phases 1-3 automatically)." |
 
 ## Escalation Protocol
 
